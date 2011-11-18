@@ -1,0 +1,122 @@
+---------------------------------  file for external linking to rokgallery for 1.7 project ----------------------------
+{
+    "project":"RokGallery",
+    "platforms":
+    {    	
+        "joomla1.7":
+        {
+        	"nodes":
+        	{
+        		"com_rokgallery":
+        		[
+        			{
+        				"source":"/com_rokgallery/src/main/php/admin",
+      					"destination":"/administrator/components/com_rokgallery"
+	        		},
+	        		{
+	        			"source":"/com_rokgallery/src/main/php/admin/language/en-GB/en-GB.com_rokgallery.sys.ini",
+      					"destination":"/administrator/language/en-GB/en-GB.com_rokgallery.sys.ini"
+  					},
+	        		{
+	        			"source":"/com_rokgallery/src/main/php/site",
+      					"destination":"/components/com_rokgallery"
+	        		},
+  					{
+  						"source":"/com_rokgallery/src/main/php/site/language/en-GB/en-GB.com_rokgallery.ini",
+      					"destination":"/language/en-GB/en-GB.com_rokgallery.ini"
+  					}
+  				],
+  				"mod_rokgallery":
+        		[
+        			{
+        				"source":"/mod_rokgallery/src/main/php",
+          				"destination":"/modules/mod_rokgallery"
+	        		},
+	        		{
+	        			"source":"/mod_rokgallery/src/main/php/language/en-GB/en-GB.mod_rokgallery.ini",
+          				"destination":"/language/en-GB/en-GB.mod_rokgallery.ini"
+  					}
+  				],
+  				"plg_editor_xtd":
+        		[
+        			{
+        				"source":"/plg_editors-xtd_rokgallery/src/main/php",
+          				"destination":"/plugins/editors-xtd/rokgallery"
+	        		}
+	        		{
+	        			"source":"/mod_rokgallery/src/main/php/language/en-GB/en-GB.mod_rokgallery.ini",
+          				"destination":"/language/en-GB/en-GB.mod_rokgallery.ini"
+  					}
+  				]
+        	},
+        	"needs":	// possible dependency tracking   not sure about this one really
+        	[
+        		{
+        			"extension":"RokCommon",
+        			"platform":"joomla1.7",
+        			"node":"library"		// node name, all, or null means all
+        		}
+        	],
+        	"installs":		// various install actions that are needed based on the platform.
+        	[
+        		{
+        			"sql":"/samples/install.sql" 			//sql file for install based on platform and
+        		},
+        		{
+        			"php":"/arbitrary/php/file/to/run.php"
+        		}
+        	]        	    	
+        }            
+    }
+}
+
+---------------------------------  file in rokcommon project ----------------------------
+{
+	"project":"RokCommon",
+	"platforms":
+    {    	
+        "joomla1.7":
+        {
+        	"nodes":
+        	{
+        		"library":
+        		[
+        			{
+        				"source":"/shared/src/main/php",
+          				"destination":"/libraries/rokcommon"
+	        		}
+  				]
+        	}    	
+        },            
+        "joomla1.5":
+        {
+        	"nodes":
+        	{
+        		"library":
+        		[
+        			{
+        				"source":"/shared/src/main/php",
+          				"destination":"/components/com_rokcommon"
+	        		}
+  				]
+        	}    	
+        },
+        "wordpress":
+        {
+        	"nodes":
+        	{
+        		"library":
+        		[
+        			{	        			
+        				"source":"/wordpress/src/main/php/rokcommon.php",
+          				"destination":"/wp-content/plugins/rokcommon/rokcommon.php"	
+	        		},
+        			{
+        				"source":"/shared/src/main/php",
+          				"destination":"/wp-content/plugins/rokcommon/library"
+	        		}
+  				]
+        	}    	
+        } 
+    }
+}
