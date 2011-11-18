@@ -1,0 +1,4 @@
+Usage: %{app} version
+
+version:
+  Outputs the version of the application.

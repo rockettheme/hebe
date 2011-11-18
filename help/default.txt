@@ -1,0 +1,12 @@
+Usage:  %{app} help [<command>]
+        %{app} project add|edit|link|remove|rename|list [arguments...]
+        %{app} version
+
+See '%{app} help <command>' for details of a specific command.
+
+Commands:
+  help          Shows the help informations of a specific command.			
+  version       Shows the current version of the App.
+  project       Manages projects. Each project consists in a group
+                of nodes, for example a module, a language file, a
+                component.

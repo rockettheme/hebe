@@ -1,0 +1,8 @@
+Usage: %{app} project add <project name> [+node name:source_path:destination]
+       %{app} project edit <project name> [+node name:source_path:destination] [-node name]
+       %{app} project remove <project name>
+       %{app} rename <project name> <new project name>
+       %{app} list [<project name>] [+filter <partial project name|regexp>] [-details] [-nodes] [-sources] [-destinations]
+
+version:
+  Outputs the version of the application.
