@@ -1,0 +1,11 @@
+Usage: %{app} unregister <project[s]>
+
+Description:
+  Unregister one or multiple projects from Hebe
+
+Arguments:
+  <project[s]>   Unregister one or more projects from Hebe. Unregistering will
+                 only stop a project from being part of Hebe, no file will be
+                 deleted.
+                 You can unregister and register a project as many times as you
+                 want.

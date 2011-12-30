@@ -1,0 +1,16 @@
+Usage: %{app} register <dir[s]>|<manifest> [+force]
+
+Description:
+  Registers a project into Hebe based on the manifest (hebe.json). Multiple paths
+  or manifests are allowed as arguments.
+
+Arguments:
+  <dir[s]>   Directory or directories in which the project reside. In this case
+             Hebe will look for a hebe.json inside <dir>.
+
+  <manifest> Manifest file to use. In this case the directory in which the
+             manifest file resides will be used as project directory.
+             The default manifest is 'hebe.json'.
+
+  [+force]   If a project has already been registered, you can force to be
+             registered again in which case will be removed and readded.

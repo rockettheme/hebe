@@ -28,6 +28,21 @@ function array_get($array, $key){
 	return (!empty($array) && array_key_exists($key, $array)) ? $array[$key] : null;
 }
 
+function array_key_exists_nc($key, $search) {
+    if (array_key_exists($key, $search)) {
+        return $key;
+    }
+    if (!(is_string($key) && is_array($search) && count($search))) {
+        return false;
+    }
+    $key = strtolower($key);
+    foreach ($search as $k => $v) {
+        if (strtolower($k) == $key) {
+            return $k;
+        }
+    }
+    return false;
+} 
 
 function array_key_exists_r($needle, $haystack){
     $result = array_key_exists($needle, $haystack);

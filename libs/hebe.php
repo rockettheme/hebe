@@ -1,15 +1,14 @@
 <?php
 
+define('DS', DIRECTORY_SEPARATOR);
 require dirname(__FILE__) . '/../libs/hebeconfig.php';
+require dirname(__FILE__) . '/../libs/hebeplatform.php';
 require dirname(__FILE__) . '/../libs/hebeprojects.php';
 require dirname(__FILE__) . '/../helpers/json.php';
 require dirname(__FILE__) . '/../helpers/array.php';
 require dirname(__FILE__) . '/../helpers/colors.php';
 
 Class Hebe {
-	
-	public static $version = "1.0";
-	public static $author = "RocketTeam";
 
 	public static $config, $config_data, $projects, $projects_data;
 	private static $path;

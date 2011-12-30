@@ -1,0 +1,15 @@
+Usage: %{app} list [+filter <string|regexp>]
+
+Description:
+  List all the registered projects in Hebe, with the ability to filter by
+  string or regexp.
+
+Arguments:
+  [+filter]  Filter is an optional argument. When used it allows to restrict
+             the projects list results based on the criteria that gets used.
+
+             Examples:
+
+                 1. %{app} list +filter hebe
+                 2. %{app} list +filter ^he
+                 3. %{app} list +filter be$

@@ -1,4 +1,5 @@
 {
-	"backup_existing_when_linking": false,
-	"colored_output": true
+	"manifest": "hebe.json",
+	"editor": "$EDITOR",
+	"backup_existing_when_linking": false
 }

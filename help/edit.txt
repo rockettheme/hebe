@@ -1,0 +1,39 @@
+Usage: %{app} edit <project[s]> [+plat[form] <platform[s]>]
+
+Description:
+  Opens in the configured editor the specified projects. If no Platform is specified,
+  Hebe will try to add all of the platforms associated to the project[s] and if the
+  editor allows it, they will all show up.
+
+Arguments:
+  <project[s]>   One or many projects you want to open in your editor.
+                 The editor can be configured through ~/.hebe/config and if
+                 the editor allows it, multiple directories will be added to
+                 a new window.
+                 You can also export your editor via terminal like:
+                    $ export EDITOR="/usr/local/bin/subl -w"
+                 Or you can edit your .bash_profile and add the entry in there.
+                 To use your exported EDITOR, Hebe config should be configured like:
+                    {
+                       ...
+                       "editor": "$EDITOR",
+                       ...
+                    }
+
+                 An example of editor could be:
+                    {
+                       ...
+                       "editor": "/usr/local/bin/subl",
+                       ...
+                    }
+
+  [+plat[form]   Platform argument is optional. When no specified, all the platforms
+                 associated to the project will be tried to get added to your editor.
+                 You can also specify a specific platform if needed.
+
+                 Examples:
+
+                     1. %{app} edit gantry // All Joomla15, Joomla17, Wordpress platforms
+                                           // are added to a new window of your editor
+                     2. %{app} edit gantry +platform joomla15
+                     3. %{app} edit gantry halcyon +platform joomla16

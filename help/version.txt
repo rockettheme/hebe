@@ -1,4 +1,4 @@
 Usage: %{app} version
 
-version:
-  Outputs the version of the application.
+Description:
+   Shows Hebe's version. Hebe versioning system is simply based on SVN revision.
