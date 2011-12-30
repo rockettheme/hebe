@@ -188,7 +188,7 @@ switch ($command){
 
 		Hebe::message("Retrieving Updates Log...");
 		$version = exec("svn info ".$path."| grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
-		exec("svn log -r ".$version.":HEAD", $output);
+		exec("svn log ".$path." -r ".$version.":HEAD", $output);
 		Hebe::message(implode("\n", $output)."\n");
 
 		break;
