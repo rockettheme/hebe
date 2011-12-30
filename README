@@ -18,7 +18,7 @@ First steps:
    2. The next step would be to link Hebe to a global binary folder such as /usr/bin.
       To do so perform the following command:
 
-      $ sudo ./hebe link +dest /usr/bin
+      $ sudo ./hebe link hebe +dest /usr/bin
 
       The sudo might be required to link to that particular path. A password will be
       asked, just use your USER password and hit enter.

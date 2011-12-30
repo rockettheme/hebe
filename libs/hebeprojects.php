@@ -94,7 +94,7 @@ Class HebeProjects {
 
 				foreach($platforms as $platform){
 					if (!isset($this->data[$project][$platform]) || $force){
-						$this->data[$project][$platform]= rtrim(rtrim($location, $this->config->get('manifest')), '/');
+						$this->data[$project][$platform]= rtrim(preg_replace("/".$this->config->get('manifest')."$/", "", $location), '/');
 						$added[] = ucfirst($platform);
 					} else {
 						$skipped[] = ucfirst($platform);

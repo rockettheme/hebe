@@ -182,7 +182,14 @@ switch ($command){
 
 	case 'update':
 		$path = dirname(__FILE__);
-		$update = exec("svn update ".$path);
+		Hebe::message("\nUpdating Hebe...");
+		Hebe::message(exec("svn update ".$path));
+		Hebe::message("\n");
+
+		Hebe::message("Retrieving Updates Log...");
+		$version = exec("svn info ".$path."| grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
+		exec("svn log -r ".$version.":HEAD", $output);
+		Hebe::message(implode("\n", $output)."\n");
 
 		break;
 
