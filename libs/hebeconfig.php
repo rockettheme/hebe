@@ -4,11 +4,13 @@ Class HebeConfig {
 
 	private static $config_path = '';
 	private static $config_file = '';
-	public $data = stdClass;
+	public $data;
 
 	public function __construct(){
 		$this->config_path = exec('echo $HOME').'/.hebe';
 		$this->config_file = $this->config_path.'/config';
+
+		$this->data = new stdClass();
 
 		$this->create_config();
 		$this->load_config();
@@ -20,7 +22,7 @@ Class HebeConfig {
 		}
 
 		if (!file_exists($this->config_file) && !@copy(PATH . '/resources/config', $this->config_file)){
-			Hebe::error("Failed to copy default config file from `" . 
+			Hebe::error("Failed to copy default config file from `" .
 				PATH . "/resources/config` " . "to " . $this->config_file);
 		}
 	}
@@ -51,7 +53,7 @@ Class HebeConfig {
 
 	public function set($option, $value){
 		if (!isset($value)) return Hebe::error("A value is required for the option `".$option."`");
-		
+
 		if (!isset($this->data->$option)){
 			return Hebe::error("Unable to find the option `".$option."`");
 		}
