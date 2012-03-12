@@ -1,5 +1,12 @@
 #!/usr/bin/env php
 <?php
+// env to debug with MAMP
+// #!/Applications//MAMP/bin/php/php5.3.6/bin/php
+
+/*
+	Getting Started:
+		https://gist.github.com/b038bb8076754968eff5
+*/
 
 define("PATH", dirname(__FILE__));
 require dirname(__FILE__) . '/libs/hebe.php';
@@ -18,12 +25,18 @@ switch ($command){
 		if (count($arguments) < 1) usage($command);
 		$options = array(
 			'arguments' => array(),
+			'name' => "",
 			'force' => false
 		);
 
 		$build = 'arguments';
 
 		foreach ($arguments as $arg){
+
+			if ($arg == '+name'){
+				$build = 'name';
+				continue;
+			}
 
 			if ($arg == '+force'){
 				$build = 'force';
@@ -105,7 +118,6 @@ switch ($command){
 	case 'link':
 		if (count($arguments) < 1) usage($command);
 		$selected = array(
-			'arguments' => array(),
 			'destinations' => array(),
 			'projects' => array(),
 			'platform' => "",
@@ -116,16 +128,16 @@ switch ($command){
 
 		foreach ($arguments as $arg){
 			if ($arg == '+project' || $arg == '+projects' || $arg == '+proj'){
-				$build = 'arguments';
+				$build = 'projects';
 				continue;
 			}
 
-			if ($arg == '+platform' || $arg == '+plat'){
+			if ($arg == '+platforms' || $arg == "+platform" || $arg == '+plat' || $arg == '+p'){
 				$build = 'platform';
 				continue;
 			}
 
-			if ($arg == '+destination' || $arg == '+destinations' || $arg == '+dest'){
+			if ($arg == '+destination' || $arg == '+destinations' || $arg == '+dest' || $arg == '+d'){
 				$build = 'destinations';
 				continue;
 			}
@@ -154,7 +166,7 @@ switch ($command){
 		$build = 'arguments';
 
 		foreach ($arguments as $arg){
-			if ($arg == '+platforms' || $arg == "+platform" || $arg == '+plat'){
+			if ($arg == '+platforms' || $arg == "+platform" || $arg == '+plat' || $arg == '+p'){
 				$build = 'platforms';
 				continue;
 			}
@@ -171,6 +183,29 @@ switch ($command){
 		$hebe->projects->edit_project($selected);
 		break;
 
+	case 'sync':
+		$selected = array(
+			'arguments' => array(),
+			'update' => false
+		);
+
+		$build = 'arguments';
+
+		foreach ($arguments as $arg){
+			if ($arg == '+update' || $arg == '+u'){
+				$build = 'update';
+			}
+
+			if (is_array($selected[$build])) $selected[$build][] = $arg;
+			else if (is_bool($selected[$build])) $selected[$build] = true;
+			else $selected[$build] = $arg;
+		}
+
+		$hebe = new Hebe();
+		$hebe->projects->sync_projects($selected);
+		break;
+
+
 	case 'version': case '--version': case '-v':
 		$path = dirname(__FILE__);
 		$date = exec("svn info ".$path."| awk '/^Last Changed Date:/ {print $7,$8,$9,$10,$5}'");
@@ -186,7 +221,7 @@ switch ($command){
 		Hebe::message(exec("svn update ".$path));
 		Hebe::message("\n");
 
-		Hebe::message("Retrieving Updates Log...");
+		Hebe::message("Retrieving Update Logs...");
 		$version = exec("svn info ".$path."| grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
 		exec("svn log ".$path." -r ".$version.":HEAD", $output);
 		Hebe::message(implode("\n", $output)."\n");

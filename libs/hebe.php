@@ -36,4 +36,12 @@ Class Hebe {
 			if (!$config_path) $path = '';
 	}
 
+	public function requirements(){
+		$errors = array();
+		if (!function_exists("exec")) $errors[] = "exec() function appears to be disabled but required.";
+
+		if (!count($errors)) return true;
+		else Hebe::error(implode("\n", $errors));
+	}
+
 }

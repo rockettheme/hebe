@@ -196,6 +196,7 @@ class HebePlatform
                 '/components/com_banners',
                 '/components/com_contact',
                 '/components/com_content',
+                '/components/com_finder',
                 '/components/com_mailto',
                 '/components/com_media',
                 '/components/com_newsfeeds',
@@ -203,8 +204,6 @@ class HebePlatform
                 '/components/com_users',
                 '/components/com_weblinks',
                 '/components/com_wrapper',
-                '/docs',
-                '/docs/installation',
                 '/images',
                 '/images/banners',
                 '/images/sampledata',
@@ -220,6 +219,8 @@ class HebePlatform
                 '/libraries/simplepie',
                 '/logs',
                 '/media',
+                '/media/cms',
+                '/media/com_finder',
                 '/media/contacts',
                 '/media/editors',
                 '/media/mailto',
@@ -228,6 +229,7 @@ class HebePlatform
                 '/media/overrider',
                 '/media/plg_quickicon_extensionupdate',
                 '/media/plg_quickicon_joomlaupdate',
+                '/media/plg_system_highlight',
                 '/media/system',
                 '/modules',
                 '/modules/mod_articles_archive',
@@ -240,6 +242,7 @@ class HebePlatform
                 '/modules/mod_breadcrumbs',
                 '/modules/mod_custom',
                 '/modules/mod_feed',
+                '/modules/mod_finder',
                 '/modules/mod_footer',
                 '/modules/mod_languages',
                 '/modules/mod_login',
@@ -260,6 +263,7 @@ class HebePlatform
                 '/plugins/editors',
                 '/plugins/editors-xtd',
                 '/plugins/extension',
+                '/plugins/finder',
                 '/plugins/quickicon',
                 '/plugins/search',
                 '/plugins/system',
@@ -273,7 +277,9 @@ class HebePlatform
             ),
         ),
         'joomla17'  => array(
-            self::DOESNT_HAVE => array(),
+            self::DOESNT_HAVE => array(
+                '/components/com_finder' // diff from 2.5
+            ),
             self::HAS         => array(
                 '/administrator',
                 '/administrator/cache',
@@ -362,6 +368,7 @@ class HebePlatform
             self::DOESNT_HAVE => array(
                 '/xmlrpc', // diff to 1.5
                 '/libraries/joomlacms', // diff to 1.7
+                '/cli' // diff to 2.5
             ),
             self::HAS         => array(
                 '/administrator',

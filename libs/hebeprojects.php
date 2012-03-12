@@ -8,6 +8,8 @@ Class HebeProjects {
 	public $data = array();
 
 	public function __construct($config){
+		if (!Hebe::requirements()) return false;
+
 		$this->projects_path = exec('echo $HOME').'/.hebe';
 		$this->projects_file = $this->projects_path.'/projects';
 
@@ -70,9 +72,11 @@ Class HebeProjects {
 		}
 	}
 
-	public function register($options = array("arguments" => array(), "force" => false)){
+	public function register($options = array("arguments" => array(), "name" => "", "force" => false, "silent" => false)){
 		$locations = $options['arguments'];
+		$name = !empty($options['name']) ? $options['name'] : false;
 		$force = $options['force'];
+		$silent = $options['silent'];
 
 		foreach($locations as $location){
 			$location = $this->_fix_path($location);
@@ -80,6 +84,8 @@ Class HebeProjects {
 			if ($manifest != null){
 				$project = $manifest['project'];
 				$requires = $manifest['requires'];
+
+				if ($name !== false) $project = $name;
 
 				$platforms = array_keys($manifest['platforms']);
 
@@ -108,7 +114,7 @@ Class HebeProjects {
 
 				$status = ($newproject ? "created." : (count($added) ? "updated." : "skipped."));
 
-				Hebe::message("\nProject `" . $project . "` " . $status . $message ."\n");
+				if (!$silent) Hebe::message("\nProject `" . $project . "` " . $status . $message ."\n");
 
 				if (isset($requires)){
 					$requirements = array();
@@ -119,8 +125,10 @@ Class HebeProjects {
 					}
 
 					if (count($requirements)){
-						Hebe::message("Warning: Project `".$project."` requires the projects `".implode(", ", $requirements)."` to be registered.");
-						Hebe::message("         Please run ./hebe register <projects working path>\n");
+						if (!$silent){
+							Hebe::message("Warning: Project `".$project."` requires the projects `".implode(", ", $requirements)."` to be registered.");
+							Hebe::message("         Please run ./hebe register <projects working path>\n");
+						}
 					}
 				}
 			}
@@ -129,8 +137,9 @@ Class HebeProjects {
 		$this->save_projects_file();
 	}
 
-	public function unregister($options = array("arguments" => array())){
+	public function unregister($options = array("arguments" => array(), "silent" => false)){
 		$projects = $options['arguments'];
+		$silent = $options['silent'];
 
 		foreach($projects as $project){
 
@@ -140,7 +149,7 @@ Class HebeProjects {
 
 			$status = (!$key) ? "not found." : "removed.";
 
-			Hebe::message("\nProject `" . (!$key ? $project : $key) . "` " . $status ."\n");
+			if (!$silent) Hebe::message("\nProject `" . (!$key ? $project : $key) . "` " . $status ."\n");
 		}
 
 		$this->save_projects_file();
@@ -226,7 +235,10 @@ Class HebeProjects {
 						$expected_platform = HebePlatform::getInfo($this->_clean_path($dest, 'right'));
 						$platform = (!$platform_option) ? $expected_platform : $platform_option;
 
+						$alias = $this->getAlias($project, $platform);
+						if ($alias) $platform = $alias;
 						$platform = array_key_exists_nc($platform, $project);
+
 						if (!$platform) $platform = array_key_exists_nc("custom", $project);
 
 						if (!$platform){
@@ -330,6 +342,82 @@ Class HebeProjects {
 		}
 
 		if (count($list)) exec($this->config->get('editor') . ' ' . implode(" ", $list));
+	}
+
+	public function sync_projects($options = array("arguments" => array(), "update" => false)){
+		$projects = $options['arguments'];
+		$clean = $options['clean'];
+		$update = $options['update'];
+
+		$data = $this->data;
+
+		if (count($projects)){
+			$errors = array();
+			$data = array();
+
+			foreach($projects as $project){
+				$name = $project;
+				$project = array_key_exists_nc($name, $this->data);
+
+				if (!$project) $errors[] = $name;
+				else $data[$project] = $this->data[$project];
+			}
+
+		}
+
+		Hebe::message("\nResyncing ".count($data)." projects...");
+		if (count($errors)) Hebe::message("Some have not been found: ".implode(", ", $errors));
+
+		if ($update){
+			Hebe::message("\nNote that with the update option, every project will get svn updated first. \nThis might take some time based on how many projects you have, speed connection, etc...");
+		}
+
+		Hebe::message("\n");
+
+		foreach($data as $project => $nodes){
+			if (strtolower($project) == 'hebe') continue;
+
+			Hebe::message("Syncing project `".$project."`");
+			foreach($nodes as $platform => $node){
+				if (!file_exists($node)){
+					unset($this->data[$project][$platform]);
+
+					$status = "(removed) nodes location not found.";
+				} else {
+					$update_status = "";
+					if ($update){
+						exec("svn update ". $node);
+						$update_status = "updated and ";
+					}
+
+					$options = array("arguments" => array($node), "name" => $project, "force" => true, "silent" => true);
+					$this->register($options);
+
+					$status = "(synched) nodes have been ".$update_status."re-registered.";
+				}
+
+				Hebe::message("      └ [".$platform."]: ". $status);
+			}
+
+			Hebe::message("\n");
+		}
+
+		$this->save_projects_file();
+	}
+
+	public function getAlias($project = null, $platform = null){
+		if (!$project || !$platform) return false;
+
+		foreach($project as $node){
+			$manifest = $this->load_manifest($node);
+			$aliases = $manifest['aliases'];
+			if (!$aliases) continue;
+
+			$alias = $aliases[0];
+			$platform = array_key_exists_nc($platform, $alias);
+
+			if (isset($alias[$platform])) return $alias[$platform];
+		}
 	}
 
 	private function _clean_path($manifest, $position = 'both'){

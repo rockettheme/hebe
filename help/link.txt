@@ -1,4 +1,4 @@
-Usage: %{app} link <project[s]> +dest[ination] <path[s]> [+platform <platform>] [+force]
+Usage: %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platform>] [+force]
 
 Description:
   Link one or multiple projects to a specific destination (can be multiple at
@@ -8,27 +8,27 @@ Description:
   platform.
 
 Arguments:
-  <project[s]>    One or multiple projects that are desired to be linked.
+  <project[s]>     One or multiple projects that are desired to be linked.
 
-  +dest[ination]  One or multiple paths where the projects will be linked to.
-                  This is usually a root site folder like joomla or wordpress.
+  +d[est[ination]] One or multiple paths where the projects will be linked to.
+                   This is usually a root site folder like joomla or wordpress.
 
-                  Examples:
+                   Examples:
 
-                     1. %{app} link gantry +destination ~/Sites/joomla/j15
-                     2. %{app} link gantry halcyon +dest ~/Sites/wp/halcyon
+                      1. %{app} link gantry +destination ~/Sites/joomla/j15
+                      2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon
 
-  [+platform]     When a project has multiple platforms, you can decide to
-                  pick one. When platform is specified, it will override the
-                  auto-detection.
+  [+p[lat[form]]]  When a project has multiple platforms, you can decide to
+                   pick one. When platform is specified, it will override the
+                   auto-detection.
 
-                  By default Hebe will try to auto-detect the platform of the
-                  destinations and if not found will fallback to the 'custom'
-                  platform.
-                  If 'custom' will not be found still, then it will error out.
+                   By default Hebe will try to auto-detect the platform of the
+                   destinations and if not found will fallback to the 'custom'
+                   platform.
+                   If 'custom' will not be found still, then it will error out.
 
-                  Examples:
+                   Examples:
 
-                     1. %{app} link gantry +destination ~/Sites/joomla/j15 +platform joomla15
-                     2. %{app} link gantry halcyon +dest ~/Sites/wp/halcyon +platform wordpress
+                      1. %{app} link gantry +destination ~/Sites/joomla/j15 +platform joomla15
+                      2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon +p wordpress
 

@@ -7,6 +7,8 @@ Class HebeConfig {
 	public $data;
 
 	public function __construct(){
+		if (!Hebe::requirements()) return false;
+
 		$this->config_path = exec('echo $HOME').'/.hebe';
 		$this->config_file = $this->config_path.'/config';
 

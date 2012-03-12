@@ -1,4 +1,4 @@
-Usage: %{app} edit <project[s]> [+plat[form] <platform[s]>]
+Usage: %{app} edit <project[s]> [+p[lat[form]] <platform[s]>]
 
 Description:
   Opens in the configured editor the specified projects. If no Platform is specified,
@@ -27,7 +27,7 @@ Arguments:
                        ...
                     }
 
-  [+plat[form]   Platform argument is optional. When no specified, all the platforms
+  [+p[lat[form]] Platform argument is optional. When no specified, all the platforms
                  associated to the project will be tried to get added to your editor.
                  You can also specify a specific platform if needed.
 
@@ -36,4 +36,4 @@ Arguments:
                      1. %{app} edit gantry // All Joomla15, Joomla17, Wordpress platforms
                                            // are added to a new window of your editor
                      2. %{app} edit gantry +platform joomla15
-                     3. %{app} edit gantry halcyon +platform joomla16
+                     3. %{app} edit gantry halcyon +p joomla16

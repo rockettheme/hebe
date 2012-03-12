@@ -1,9 +1,11 @@
 Usage:  %{app} help [<command>]
-        %{app} register <dir[s]>|<manifest> [+force]
+        %{app} register <dir[s]>|<manifest> [+name <custom_name>] [+force]
         %{app} unregister <project[s]>
         %{app} list [+filter <string|regexp>]
-        %{app} link <project[s]> +dest[ination] <path[s]> [+platform <platform>] [+force]
-        %{app} edit <project[s]> [+plat[form] <platform[s]>]
+        %{app} sync [<project[s]>] [+update]
+        %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platform>] [+force]
+        %{app} edit <project[s]> [+p[lat[form]] <platform[s]>]
+        ${app} aliases
         %{app} update
         %{app} version
 
@@ -20,6 +22,9 @@ Commands:
   list          List all the registered projects in Hebe, with the ability to
                 filter by string or regexp.
 
+  sync          Synchronize the projects by re-registering the manifests. With the
+                options '+update' the projects will get SVN updated first.
+
   link          Link one or multiple projects to a specific destination (can be
                 multiple at one time). Link command autodetects the platform of
                 a destination (ie, joomla15, joomla17, wordpress) and because of
@@ -32,6 +37,10 @@ Commands:
                 Platform is specified, Hebe will try to add all of the platforms
                 associated to the project[s] and if the editor allows it, they
                 will all show up.
+
+  aliases       Description and examples about aliases. Aliases help keeping simple
+                the need of adding new platforms without the need of having to copy
+                the nodes/structure again.
 
   update        If Hebe has been checked out, update will perform an SVN UPDATE
                 and update the app to its latest revision.

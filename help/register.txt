@@ -1,4 +1,4 @@
-Usage: %{app} register <dir[s]>|<manifest> [+force]
+Usage: %{app} register <dir[s]>|<manifest> [+name <custom_name>] [+force]
 
 Description:
   Registers a project into Hebe based on the manifest (hebe.json). Multiple paths
@@ -11,6 +11,14 @@ Arguments:
   <manifest> Manifest file to use. In this case the directory in which the
              manifest file resides will be used as project directory.
              The default manifest is 'hebe.json'.
+
+  [+name]    Allows to register a project customizing its name. Useful if you have
+             a branch or a temporary project that you don't want to merge with the
+             original project.
+
+             Example:
+
+                %{app} register /project/rokcommon/hebe.json +name RokCommonTest
 
   [+force]   If a project has already been registered, you can force to be
              registered again in which case will be removed and readded.
