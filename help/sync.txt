@@ -1,0 +1,28 @@
+Usage: %{app} sync [<project[s]>] [+update]
+
+Description:
+  Synchronize the projects by re-registering the manifest of each platform.
+  When the +update option is passed you can have all the projects to SVN
+  update before getting re-registered, to ensure you are up to date with all
+  the pathing, nodes, platforms, etc.
+  If no project is specified, all your currently registered projects will be
+  synched.
+
+Arguments:
+  [<project[s]>]   One or multiple projects that are desired to be synchronized.
+                   This argument is optional, if not specified all the projects
+                   will get resynchronized
+
+                   Examples:
+
+                      1. %{app} sync
+                      2. %{app} sync gantry roksprocket
+
+  [+update]        The update argument is optional and allows your project[s]
+                   to get SVN updated before getting resynced.
+
+                   Examples:
+
+                      1. %{app} sync +update
+                      2. %{app} sync gantry roksprocket +update
+

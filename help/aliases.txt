@@ -1,0 +1,27 @@
+
+Description:
+  Sometimes you might have a project associated to a platform but then realize the same
+  structure, paths, etc, can apply to different other platforms.
+  This is where aliases come into help. You can alias a specific platform to an existing
+  one without the need of copying again the same nodes structure.
+
+  Here is an example:
+
+    {
+      "project":"Gantry",
+      "aliases":[
+        {
+          "joomla25":"joomla17"
+        }
+      ],
+
+      "platforms":{
+        "joomla17":{
+          "nodes":{
+            "com_gantry":[{...}, {...}, {...}],
+            "library":[{...}],
+            "plg_system_gantry":[{...}]
+          }
+        }
+      }
+    }
