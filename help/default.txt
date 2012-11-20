@@ -1,9 +1,9 @@
 Usage:  %{app} help [<command>]
         %{app} register <dir[s]>|<manifest> [+name <custom_name>] [+force]
         %{app} unregister <project[s]>
-        %{app} list [+filter <string|regexp>]
+        %{app} list [<string|regexp>]
         %{app} sync [<project[s]>] [+update]
-        %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platform>] [+force]
+        %{app} link <project[s]> [+d[est[ination]]] <path[s]> [+p[lat[form]] <platform>] [+force]
         %{app} edit <project[s]> [+p[lat[form]] <platform[s]>]
         ${app} aliases
         %{app} update
@@ -27,7 +27,7 @@ Commands:
 
   link          Link one or multiple projects to a specific destination (can be
                 multiple at one time). Link command autodetects the platform of
-                a destination (ie, joomla15, joomla17, wordpress) and because of
+                a destination (ie, joomla15, joomla25, wordpress) and because of
                 that there is no need to specify a platform. Although a
                 '+platform' option can be use to force a desired platform.
 

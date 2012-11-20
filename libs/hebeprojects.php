@@ -204,8 +204,25 @@ Class HebeProjects {
 		$platform_option = (strlen($options['platform'])) ? $options['platform']: false;
 		$force = $options['force'];
 
+		foreach($options as $key => $options_data){
+			if ($key == 'destinations') continue;
+			if (is_array($options_data)){
+				foreach($options_data as $index => $option){
+					$dest = $this->_clean_path($this->_fix_path($option), 'right');
+					if (!file_exists($dest)) continue;
+					if (!in_array($dest, $destinations)) array_push($destinations, $dest);
+					unset(${$key}[$index]);
+				}
+			} else {
+				$dest = $this->_clean_path($this->_fix_path($dest), 'right');
+				if (!file_exists($dest)) continue;
+				if (!in_array($dest, $destinations)) array_push($destinations, $dest);
+			}
+		}
+
+
 		if (!count($projects)) Hebe::error("There is no project set to be linked. Please read the documentation (./command help link).");
-		if (!count($destinations)) Hebe::error("No destination path has been found. Please read the documentation (./command help link).");
+		if (!count($destinations)) array_push($destinations, $this->_fix_path('.'));
 
 		$errors = array('destinations' => array(), 'projects' => array("name" => array(), "paths" => array()));
 		$success = array('destinations' => array(), 'projects' => array("name" => array(), "paths" => array()));

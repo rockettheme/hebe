@@ -1,4 +1,4 @@
-Usage: %{app} list [+filter <string|regexp>]
+Usage: %{app} list [<string|regexp>]
 
 Description:
   List all the registered projects in Hebe, with the ability to filter by
@@ -10,6 +10,7 @@ Arguments:
 
              Examples:
 
-                 1. %{app} list +filter hebe
-                 2. %{app} list +filter ^he
-                 3. %{app} list +filter be$
+                 1. %{app} list hebe
+                 2. %{app} list gant spro
+                 3. %{app} list ^he
+                 4. %{app} list +filter be$

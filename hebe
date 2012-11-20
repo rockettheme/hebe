@@ -84,24 +84,12 @@ switch ($command){
 			'no_destinations' => false
 		);
 
-		$build = 'arguments';
+		$build = 'filter';
 
 		foreach ($arguments as $arg){
 			if ($arg == '+filter' || $arg == '+filters'){
 				$build = 'filter';
 				continue;
-			}
-			if ($arg == '-nodes'){
-				$build = 'no_nodes';
-			}
-			if ($arg == '-details'){
-				$build = 'no_details';
-			}
-			if ($arg == '-sources'){
-				$build = 'no_sources';
-			}
-			if ($arg == '-destinations'){
-				$build = 'no_destinations';
 			}
 
 			if (is_array($selected[$build])) $selected[$build][] = $arg;

@@ -3,32 +3,52 @@ Usage: %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platf
 Description:
   Link one or multiple projects to a specific destination (can be multiple at
   one time). Link command autodetects the platform of a destination (ie,
-  joomla15, joomla17, wordpress) and because of that there is no need to specify
+  joomla15, joomla25, wordpress) and because of that there is no need to specify
   a platform. Although a '+platform' option can be use to force a desired
   platform.
 
 Arguments:
-  <project[s]>     One or multiple projects that are desired to be linked.
+  <project[s]>       One or multiple projects that are desired to be linked.
 
-  +d[est[ination]] One or multiple paths where the projects will be linked to.
-                   This is usually a root site folder like joomla or wordpress.
+  [+d[est[ination]]] One or multiple paths where the projects will be linked to.
+                     This is usually a root site folder like joomla or wordpress.
 
-                   Examples:
+                     Examples:
 
-                      1. %{app} link gantry +destination ~/Sites/joomla/j15
-                      2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon
+                        1. %{app} link gantry +destination ~/Sites/joomla/j15
+                        2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon
 
-  [+p[lat[form]]]  When a project has multiple platforms, you can decide to
-                   pick one. When platform is specified, it will override the
-                   auto-detection.
+                     Note:
+                        1. You can also omit to specify the prefix +d/est/ination
+                           Hebe will automatically check for paths existances and
+                           fix it for you.
 
-                   By default Hebe will try to auto-detect the platform of the
-                   destinations and if not found will fallback to the 'custom'
-                   platform.
-                   If 'custom' will not be found still, then it will error out.
+                           Example:
 
-                   Examples:
+                              %{app} link gantry ~/Sites/Gantry
 
-                      1. %{app} link gantry +destination ~/Sites/joomla/j15 +platform joomla15
-                      2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon +p wordpress
+
+                        2. The destination can be omitted and the current path will be
+                           used as destination. Although it is highly reccomended to always
+                           specify a destination. Relying on the current location, in
+                           conjunction with a `+platform`, might cause unwanted links.
+
+                           Example:
+
+                              [w00fz@Aton ~/Sites/Gantry]$ %{app} link gantry
+
+
+  [+p[lat[form]]]    When a project has multiple platforms, you can decide to
+                     pick one. When platform is specified, it will override the
+                     auto-detection.
+
+                     By default Hebe will try to auto-detect the platform of the
+                     destinations and if not found will fallback to the 'custom'
+                     platform.
+                     If 'custom' will not be found still, then it will error out.
+
+                     Examples:
+
+                        1. %{app} link gantry +destination ~/Sites/joomla/j15 +platform joomla15
+                        2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon +p wordpress
 

@@ -29,7 +29,7 @@ function array_get($array, $key){
 }
 
 function array_key_exists_nc($key, $search) {
-    if (array_key_exists($key, $search)) {
+	if (array_key_exists($key, $search)) {
         return $key;
     }
     if (!(is_string($key) && is_array($search) && count($search))) {
