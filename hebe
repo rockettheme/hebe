@@ -196,8 +196,8 @@ switch ($command){
 
 	case 'version': case '--version': case '-v':
 		$path = dirname(__FILE__);
-		$date = exec("svn info ".$path."| awk '/^Last Changed Date:/ {print $7,$8,$9,$10,$5}'");
-		$version = exec("svn info ".$path."| grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
+		$date = exec("svn info '".$path."' | awk '/^Last Changed Date:/ {print $7,$8,$9,$10,$5}'");
+		$version = exec("svn info '".$path."' | grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
 
 		Hebe::message("\nHebe v" . $version . " - ".$date." - RocketTheme\n");
 
@@ -205,14 +205,14 @@ switch ($command){
 
 	case 'update':
 		$path = dirname(__FILE__);
-		$version = exec("svn info ".$path."| grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
+		$version = exec("svn info '".$path."' | grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
 
 		Hebe::message("\nUpdating Hebe...");
-		Hebe::message(exec("svn update ".$path));
+		Hebe::message(exec("svn update '".$path."'"));
 		Hebe::message("\n");
 
 		Hebe::message("Retrieving Updates Log...");
-		exec("svn log ".$path." -r ".$version.":HEAD", $output);
+		exec("svn log '".$path."' -r ".$version.":HEAD", $output);
 		Hebe::message(implode("\n", $output)."\n");
 
 		break;
