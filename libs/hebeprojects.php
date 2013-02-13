@@ -209,7 +209,9 @@ Class HebeProjects {
 			if (is_array($options_data)){
 				foreach($options_data as $index => $option){
 					$dest = $this->_clean_path($this->_fix_path($option), 'right');
+					$name = array_key_exists_nc($option, $this->data);
 					if (!file_exists($dest)) continue;
+					if ($name && array_contains($this->data[$name], dirname($dest))) continue;
 					if (!in_array($dest, $destinations)) array_push($destinations, $dest);
 					unset(${$key}[$index]);
 				}
