@@ -32,6 +32,22 @@ class HebePlatform
 		return $current_platform;
 	}
 
+	public static function getFallback($platform)
+	{
+		if (array_key_exists($platform, self::$fallbacks)){
+			return self::$fallbacks[$platform];
+		}
+		return null;
+	}
+
+	protected static $fallbacks = array 
+	(
+		'joomla31' => 'joomla3',
+		'joomla3'  => 'joomla25',
+		'joomla25' => 'joomla17',
+		'joomla17' => 'joomla16'
+	);
+
 	protected static $fingerprints = array(
 		'laravel'   => array(
 			self::DOESNT_HAVE => array(),

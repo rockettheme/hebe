@@ -254,8 +254,7 @@ Class HebeProjects {
 						$expected_platform = HebePlatform::getInfo($this->_clean_path($dest, 'right'));
 						$platform = (!$platform_option) ? $expected_platform : $platform_option;
 
-						$alias = $this->getAlias($project, $platform);
-						if ($alias) $platform = $alias;
+						$platform = $this->resolvePlatform($project, $platform);
 						$platform = array_key_exists_nc($platform, $project);
 
 						if (!$platform) $platform = array_key_exists_nc("custom", $project);
@@ -437,6 +436,30 @@ Class HebeProjects {
 
 			if (isset($alias[$platform])) return $alias[$platform];
 		}
+	}
+
+	protected function resolvePlatform($project, $platform)
+	{
+		// if there is an alias for the platform use that
+		$alias = $this->getAlias($project, $platform);
+		if ($alias){ 
+			$platform = $alias; 
+		}
+		if (($working_platform = array_key_exists_nc($platform, $project)) === false){
+			$fallback_platform = HebePlatform::getFallback($platform);
+			if ($fallback_platform !== null){
+				$working_platform = $this->resolvePlatform($project, $fallback_platform);
+			}
+			else 
+			{
+				$working_platform = $platform;
+			}						
+		}
+		else
+		{
+			$working_platform = $platform;
+		}
+		return $working_platform;
 	}
 
 	private function _clean_path($manifest, $position = 'both'){
