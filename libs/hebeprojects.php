@@ -212,6 +212,7 @@ Class HebeProjects {
 					$name = array_key_exists_nc($option, $this->data);
 					if (!file_exists($dest)) continue;
 					if ($name && array_contains($this->data[$name], dirname($dest))) continue;
+					if ($name && file_exists(exec('echo `pwd`') . '/'. $name)) continue;
 					if (!in_array($dest, $destinations)) array_push($destinations, $dest);
 					unset(${$key}[$index]);
 				}
@@ -221,7 +222,6 @@ Class HebeProjects {
 				if (!in_array($dest, $destinations)) array_push($destinations, $dest);
 			}
 		}
-
 
 		if (!count($projects)) Hebe::error("There is no project set to be linked. Please read the documentation (./command help link).");
 		if (!count($destinations)) array_push($destinations, $this->_fix_path('.'));
@@ -442,18 +442,18 @@ Class HebeProjects {
 	{
 		// if there is an alias for the platform use that
 		$alias = $this->getAlias($project, $platform);
-		if ($alias){ 
-			$platform = $alias; 
+		if ($alias){
+			$platform = $alias;
 		}
 		if (($working_platform = array_key_exists_nc($platform, $project)) === false){
 			$fallback_platform = HebePlatform::getFallback($platform);
 			if ($fallback_platform !== null){
 				$working_platform = $this->resolvePlatform($project, $fallback_platform);
 			}
-			else 
+			else
 			{
 				$working_platform = $platform;
-			}						
+			}
 		}
 		else
 		{
