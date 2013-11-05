@@ -10,44 +10,13 @@ class HebePlatform
 	const HAS             = true;
 	const DOESNT_HAVE     = false;
 	const CUSTOM_PLATFORM = 'custom';
-
-	public static function getInfo($path)
-	{
-		$current_platform = self::CUSTOM_PLATFORM;
-		foreach (self::$fingerprints as $platform => $tests) {
-			$matched_platform = true;
-			foreach ($tests as $test => $testpaths) {
-				foreach ($testpaths as $testpath) {
-					if ($test != file_exists($path . $testpath)) {
-						$matched_platform = false;
-						break(2);
-					}
-				}
-			}
-			if ($matched_platform) {
-				$current_platform = $platform;
-				break;
-			}
-		}
-		return $current_platform;
-	}
-
-	public static function getFallback($platform)
-	{
-		if (array_key_exists($platform, self::$fallbacks)){
-			return self::$fallbacks[$platform];
-		}
-		return null;
-	}
-
-	protected static $fallbacks = array 
-	(
+	protected static $fallbacks = array(
+		'joomla32' => 'joomla31',
 		'joomla31' => 'joomla3',
 		'joomla3'  => 'joomla25',
 		'joomla25' => 'joomla17',
 		'joomla17' => 'joomla16'
 	);
-
 	protected static $fingerprints = array(
 		'laravel'   => array(
 			self::DOESNT_HAVE => array(),
@@ -216,6 +185,123 @@ class HebePlatform
 				'/themes/pushbutton',
 			),
 		),
+		'joomla32'  => array(
+			self::DOESNT_HAVE => array(),
+			self::HAS         => array(
+				'/administrator',
+				'/administrator/cache',
+				'/administrator/components',
+				'/administrator/help',
+				'/administrator/includes',
+				'/administrator/language',
+				'/administrator/manifests',
+				'/administrator/modules',
+				'/administrator/templates',
+				'/bin',
+				'/cache',
+				'/cli',
+				'/components',
+				'/components/com_ajax',
+				'/components/com_banners',
+				'/components/com_config',
+				'/components/com_contact',
+				'/components/com_content',
+				'/components/com_contenthistory',
+				'/components/com_finder',
+				'/components/com_mailto',
+				'/components/com_media',
+				'/components/com_newsfeeds',
+				'/components/com_search',
+				'/components/com_tags',
+				'/components/com_users',
+				'/components/com_weblinks',
+				'/components/com_wrapper',
+				'/images',
+				'/images/banners',
+				'/images/headers',
+				'/images/sampledata',
+				'/language',
+				'/language/en-GB',
+				'/language/overrides',
+				'/layouts',
+				'/layouts/joomla',
+				'/layouts/libraries',
+				'/libraries',
+				'/libraries/cms',
+				'/libraries/compat',
+				'/libraries/fof',
+				'/libraries/framework',
+				'/libraries/idna_convert',
+				'/libraries/joomla',
+				'/libraries/legacy',
+				'/libraries/phpmailer',
+				'/libraries/phputf8',
+				'/libraries/simplepie',
+				'/logs',
+				'/media',
+				'/media/cms',
+				'/media/com_banners',
+				'/media/com_contenthistory',
+				'/media/com_finder',
+				'/media/com_joomlaupdate',
+				'/media/contacts',
+				'/media/editors',
+				'/media/jui',
+				'/media/mailto',
+				'/media/media',
+				'/media/mod_languages',
+				'/media/overrider',
+				'/media/plg_quickicon_extensionupdate',
+				'/media/plg_quickicon_joomlaupdate',
+				'/media/plg_system_highlight',
+				'/media/system',
+				'/modules',
+				'/modules/mod_articles_archive',
+				'/modules/mod_articles_categories',
+				'/modules/mod_articles_category',
+				'/modules/mod_articles_latest',
+				'/modules/mod_articles_news',
+				'/modules/mod_articles_popular',
+				'/modules/mod_banners',
+				'/modules/mod_breadcrumbs',
+				'/modules/mod_custom',
+				'/modules/mod_feed',
+				'/modules/mod_finder',
+				'/modules/mod_footer',
+				'/modules/mod_languages',
+				'/modules/mod_login',
+				'/modules/mod_menu',
+				'/modules/mod_random_image',
+				'/modules/mod_related_items',
+				'/modules/mod_search',
+				'/modules/mod_stats',
+				'/modules/mod_syndicate',
+				'/modules/mod_tags_popular',
+				'/modules/mod_tags_similar',
+				'/modules/mod_users_latest',
+				'/modules/mod_weblinks',
+				'/modules/mod_whosonline',
+				'/modules/mod_wrapper',
+				'/plugins',
+				'/plugins/authentication',
+				'/plugins/captcha',
+				'/plugins/content',
+				'/plugins/editors',
+				'/plugins/editors-xtd',
+				'/plugins/extension',
+				'/plugins/finder',
+				'/plugins/quickicon',
+				'/plugins/search',
+				'/plugins/system',
+				'/plugins/twofactorauth',
+				'/plugins/user',
+				'/templates',
+				'/templates/beez3',
+				'/templates/protostar',
+				'/templates/system',
+				'/tmp',
+			)
+		),
 		'joomla31'  => array(
 			self::DOESNT_HAVE => array(),
 			self::HAS         => array(
@@ -318,7 +404,7 @@ class HebePlatform
 				'/tmp',
 			),
 		),
-		'joomla3'  => array(
+		'joomla3'   => array(
 			self::DOESNT_HAVE => array(
 				'/components/com_tags'
 			),
@@ -800,4 +886,33 @@ class HebePlatform
 			)
 		),
 	);
+
+	public static function getInfo($path)
+	{
+		$current_platform = self::CUSTOM_PLATFORM;
+		foreach (self::$fingerprints as $platform => $tests) {
+			$matched_platform = true;
+			foreach ($tests as $test => $testpaths) {
+				foreach ($testpaths as $testpath) {
+					if ($test != file_exists($path . $testpath)) {
+						$matched_platform = false;
+						break(2);
+					}
+				}
+			}
+			if ($matched_platform) {
+				$current_platform = $platform;
+				break;
+			}
+		}
+		return $current_platform;
+	}
+
+	public static function getFallback($platform)
+	{
+		if (array_key_exists($platform, self::$fallbacks)) {
+			return self::$fallbacks[$platform];
+		}
+		return null;
+	}
 }
