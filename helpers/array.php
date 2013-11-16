@@ -29,6 +29,7 @@ function array_get($array, $key){
 }
 
 function array_key_exists_nc($key, $search) {
+    if (!is_string($key)) return false;
 	if (array_key_exists($key, $search)) {
         return $key;
     }
@@ -42,7 +43,7 @@ function array_key_exists_nc($key, $search) {
         }
     }
     return false;
-} 
+}
 
 function array_key_exists_r($needle, $haystack){
     $result = array_key_exists($needle, $haystack);
