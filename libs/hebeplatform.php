@@ -38,7 +38,9 @@ class HebePlatform
 				'/includes/acp',
 				'/includes/db',
 				'/files',
-				'/images/avatars'
+				'/images/avatars',
+				'/ext',
+				'/ext/rockettheme'
 			)
 		),
 		'wordpress' => array(
