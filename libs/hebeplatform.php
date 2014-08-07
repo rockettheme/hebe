@@ -26,6 +26,15 @@ class HebePlatform
 				'/public'
 			)
 		),
+		'grav'		=> array(
+		    self::DOESNT_HAVE => array(),
+		    self::HAS 		  => array(
+		        '/bin',
+		        '/system',
+		        '/system/src/Grav',
+		        '/user'
+		    )
+		 ),
 		'phpbb'     => array(
 			self::DOESNT_HAVE => array(),
 			self::HAS         => array(

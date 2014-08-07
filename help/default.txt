@@ -3,7 +3,7 @@ Usage:  %{app} help [<command>]
         %{app} unregister <project[s]>
         %{app} list [<string|regexp>]
         %{app} sync [<project[s]>] [+update]
-        %{app} link <project[s]> [+d[est[ination]]] <path[s]> [+p[lat[form]] <platform>] [+force]
+        %{app} link <project[s]> [+d[est[ination]]] <path[s]> [+p[lat[form]] <platform>] [+force] [+name <name> (works only on Custom)]
         %{app} edit <project[s]> [+p[lat[form]] <platform[s]>]
         ${app} aliases
         %{app} update

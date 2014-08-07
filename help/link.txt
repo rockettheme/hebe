@@ -1,4 +1,4 @@
-Usage: %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platform>] [+force]
+Usage: %{app} link <project[s]> +d[est[ination]] <path[s]> [+p[lat[form]] <platform>] [+force] [+name <name> (works only on Custom)]
 
 Description:
   Link one or multiple projects to a specific destination (can be multiple at
@@ -52,3 +52,4 @@ Arguments:
                         1. %{app} link gantry +destination ~/Sites/joomla/j15 +platform joomla15
                         2. %{app} link gantry halcyon +d ~/Sites/wp/halcyon +p wordpress
 
+  [+name <name>]     Allows to give a custom name to a project of type Custom.

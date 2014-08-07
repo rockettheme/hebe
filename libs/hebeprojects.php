@@ -196,13 +196,14 @@ Class HebeProjects {
 
 	}
 
-	public function link_project($options = array("projects" => array(), "destinations" => array(), "platform" => array(), "force" => false)){
+	public function link_project($options = array("projects" => array(), "destinations" => array(), "platform" => array(), "name" => "", "force" => false)){
 		$time = time();
 
 		$destinations = $options['destinations'];
 		$projects = $options['projects'];
 		$platform_option = (strlen($options['platform'])) ? $options['platform']: false;
-		$force = $options['force'];
+		$rename = $options['name'];
+		$force  = $options['force'];
 
 		foreach($options as $key => $options_data){
 			if ($key == 'destinations') continue;
@@ -210,6 +211,7 @@ Class HebeProjects {
 				foreach($options_data as $index => $option){
 					$dest = $this->_clean_path($this->_fix_path($option), 'right');
 					$name = array_key_exists_nc($option, $this->data);
+
 					if (!file_exists($dest)) continue;
 					if ($name && array_contains($this->data[$name], dirname($dest))) continue;
 					if ($name && file_exists(exec('echo `pwd`') . '/'. $name)) continue;
@@ -296,13 +298,18 @@ Class HebeProjects {
 										$source = $this->_clean_path($working_path, 'right') . DS . $this->_clean_path($path['source']);
 										$destination = $this->_clean_path($dest, 'right') . DS . $this->_clean_path($path['destination']);
 
+										if (!$path['destination']){
+											if ($platform == 'custom' && $rename) $destination .= $rename;
+											else $destination .= $node;
+										}
+
 										if ($this->config->get('backup_existing_when_linking')){
 											if (file_exists($destination)){
 												exec('rm -rf '.$destination.'.backup');
 												exec('mv '.$destination.' '.$destination.'.backup');
 											}
 										}
-
+//var_dump($source, $destination);die;
 										if (!file_exists($destination)) exec('mkdir -p '.$destination);
 										exec('rm -rf '.$destination);
 
