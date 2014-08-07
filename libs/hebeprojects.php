@@ -196,7 +196,7 @@ Class HebeProjects {
 
 	}
 
-	public function link_project($options = array("projects" => array(), "destinations" => array(), "platform" => array(), "name" => "", "force" => false)){
+	public function link_project($options = array("projects" => array(), "destinations" => array(), "platform" => array(), "name" => "", "force" => false, "silent" => false)){
 		$time = time();
 
 		$destinations = $options['destinations'];
@@ -204,6 +204,7 @@ Class HebeProjects {
 		$platform_option = (strlen($options['platform'])) ? $options['platform']: false;
 		$rename = $options['name'];
 		$force  = $options['force'];
+		$silent = $options['silent'];
 
 		foreach($options as $key => $options_data){
 			if ($key == 'destinations') continue;
@@ -239,7 +240,7 @@ Class HebeProjects {
 			} else {
 				$success['destinations'][] = $dest;
 
-				Hebe::message("\nLinking projects into `".$dest."`");
+				if (!$silent) Hebe::message("\nLinking projects into `".$dest."`");
 				foreach($projects as $project){
 					$name = $project;
 					$project = array_key_exists_nc($name, $this->data);
@@ -272,7 +273,7 @@ Class HebeProjects {
 							$manifest = $this->load_manifest($working_path, $platform);
 							$nodes = $manifest['nodes'];
 
-							Hebe::message("   └ " . $name . " [".$platform."]");
+							if (!$silent) Hebe::message("   └ " . $name . " [".$platform."]");
 
 							if (!$nodes) {
 								Hebe::message("      └ No nodes found.\n");
@@ -295,6 +296,26 @@ Class HebeProjects {
 								foreach($nodes as $node => $paths){
 									$failed_nodes = array("count" => 0, "msg" => array());
 									foreach($paths as $path){
+
+										if (isset($path['project'])){
+											if (!array_key_exists_nc($path['project'], $this->data)){
+												$failed_nodes["msg"][] = "            └ node failed: sub project not registered -> " . $path['project'];
+												$failed_nodes["count"]++;
+												continue;
+											}
+
+											$this->link_project(array(
+											    "destinations" => array($dest),
+												"projects"     => array($path['project']),
+												"platform"     => $platform,
+												"name"         => "",
+												"force"        => $force,
+												"silent"       => true
+											));
+
+											continue;
+										}
+
 										$source = $this->_clean_path($working_path, 'right') . DS . $this->_clean_path($path['source']);
 										$destination = $this->_clean_path($dest, 'right') . DS . $this->_clean_path($path['destination']);
 
@@ -309,7 +330,7 @@ Class HebeProjects {
 												exec('mv '.$destination.' '.$destination.'.backup');
 											}
 										}
-//var_dump($source, $destination);die;
+
 										if (!file_exists($destination)) exec('mkdir -p '.$destination);
 										exec('rm -rf '.$destination);
 
@@ -327,19 +348,19 @@ Class HebeProjects {
 										}
 									}
 
-									Hebe::message("      └ " . $node . ": " . ($failed_nodes["count"] == count($paths) ? "failed" : "ok"));
+									if (!$silent) Hebe::message("      └ " . $node . ": " . ($failed_nodes["count"] == count($paths) ? "failed" : "ok"));
 									if (count($failed_nodes["msg"])) Hebe::message(implode("\n", $failed_nodes["msg"]));
 								}
 							}
 
-							Hebe::message("");
+							if (!$silent) Hebe::message("");
 						}
 					}
 				}
 			}
 		}
 
-		Hebe::message("");
+		if (!$silent) Hebe::message("");
 	}
 
 	public function edit_project($options = array("arguments" => array(), "platforms" => array(), "force" => false)){
