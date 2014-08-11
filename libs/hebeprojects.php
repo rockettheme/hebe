@@ -268,7 +268,7 @@ Class HebeProjects {
 						} else {
 							$working_path = $project[$platform];
 							$manifest = $this->load_manifest($working_path);
-							$requires = $manifest['requires'];
+							$requires = isset($manifest['requires']) ? $manifest['requires'] : false;
 
 							$manifest = $this->load_manifest($working_path, $platform);
 							$nodes = $manifest['nodes'];
@@ -456,7 +456,7 @@ Class HebeProjects {
 
 		foreach($project as $node){
 			$manifest = $this->load_manifest($node);
-			$aliases = $manifest['aliases'];
+			$aliases = isset($manifest['aliases']) ? $manifest['aliases'] : false;
 			if (!$aliases) continue;
 
 			$alias = $aliases[0];
