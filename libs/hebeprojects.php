@@ -76,14 +76,14 @@ Class HebeProjects {
 		$locations = $options['arguments'];
 		$name = !empty($options['name']) ? $options['name'] : false;
 		$force = $options['force'];
-		$silent = $options['silent'];
+		$silent = isset($options['silent']) ? $options['silent'] : false;
 
 		foreach($locations as $location){
 			$location = $this->_fix_path($location);
 			$manifest = $this->load_manifest($location);
 			if ($manifest != null){
-				$project = $manifest['project'];
-				$requires = $manifest['requires'];
+				$project = isset($manifest['project']) ? $manifest['project'] : false;
+				$requires = isset($manifest['requires']) ? $manifest['requires'] : false;
 
 				if ($name !== false) $project = $name;
 
@@ -138,8 +138,8 @@ Class HebeProjects {
 	}
 
 	public function unregister($options = array("arguments" => array(), "silent" => false)){
-		$projects = $options['arguments'];
-		$silent = $options['silent'];
+		$projects = isset($options['arguments']) ? $options['arguments'] : false;
+		$silent = isset($options['silent']) ? $options['silent'] : false;
 
 		foreach($projects as $project){
 
@@ -156,8 +156,8 @@ Class HebeProjects {
 	}
 
 	public function list_project($options = array("arguments" => array(), "filter" => false)){
-		$filters = $options['filter'];
-		$arguments = $options['arguments'];
+		$filters = isset($options['filter']) ? $options['filter'] : false;
+		$arguments = isset($options['arguments']) ? $options['arguments'] : false;
 
 		$projects = "";
 		$message = "\n";
@@ -199,12 +199,12 @@ Class HebeProjects {
 	public function link_project($options = array("projects" => array(), "destinations" => array(), "platform" => array(), "name" => "", "force" => false, "silent" => false)){
 		$time = time();
 
-		$destinations = $options['destinations'];
-		$projects = $options['projects'];
+		$destinations = isset($options['destinations']) ? $options['destinations'] : false;
+		$projects = isset($options['projects']) ? $options['projects'] : false;
 		$platform_option = (strlen($options['platform'])) ? $options['platform']: false;
-		$rename = $options['name'];
-		$force  = $options['force'];
-		$silent = $options['silent'];
+		$rename = isset($options['name']) ? $options['name'] : false;
+		$force  = isset($options['force']) ? $options['force'] : false;
+		$silent = isset($options['silent']) ? $options['silent'] : false;
 
 		foreach($options as $key => $options_data){
 			if ($key == 'destinations') continue;
@@ -364,8 +364,8 @@ Class HebeProjects {
 	}
 
 	public function edit_project($options = array("arguments" => array(), "platforms" => array(), "force" => false)){
-		$projects = $options['arguments'];
-		$platforms = $options['platforms'];
+		$projects = isset($options['arguments']) ? $options['arguments'] : false;
+		$platforms = isset($options['platforms']) ? $options['platforms'] : false;
 
 		$list = array();
 
@@ -391,9 +391,9 @@ Class HebeProjects {
 	}
 
 	public function sync_projects($options = array("arguments" => array(), "update" => false)){
-		$projects = $options['arguments'];
-		$clean = $options['clean'];
-		$update = $options['update'];
+		$projects = isset($options['arguments']) ? $options['arguments'] : false;
+		$clean = isset($options['clean']) ? $options['clean'] : false;
+		$update = isset($options['update']) ? $options['update'] : false;
 
 		$data = $this->data;
 
