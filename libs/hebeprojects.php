@@ -83,7 +83,7 @@ Class HebeProjects {
 			$manifest = $this->load_manifest($location);
 			if ($manifest != null){
 				$project = isset($manifest['project']) ? $manifest['project'] : false;
-				$requires = isset($manifest['requires']) ? $manifest['requires'] : false;
+				$requires = isset($manifest['requires']) ? $manifest['requires'] : array();
 
 				if ($name !== false) $project = $name;
 
@@ -268,7 +268,7 @@ Class HebeProjects {
 						} else {
 							$working_path = $project[$platform];
 							$manifest = $this->load_manifest($working_path);
-							$requires = isset($manifest['requires']) ? $manifest['requires'] : false;
+							$requires = isset($manifest['requires']) ? $manifest['requires'] : array();
 
 							$manifest = $this->load_manifest($working_path, $platform);
 							$nodes = $manifest['nodes'];
