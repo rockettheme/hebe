@@ -7,7 +7,7 @@ The reason we decided to create `Hebe` is because often times we have projects t
 
 
 # Installation
-You can install hebe by running the one-line command below, making sure you change directory to the folder you actually want hebe to get cloned to.
+You can install hebe by running the one-line command below, making sure you change directory to the folder you actually want hebe to get cloned to. By default it gets installed at the root of your `$HOME` directory.
 
 ```bash
 cd ~ && git clone https://github.com/rockettheme/hebe.git &&  cd hebe && ./hebe register . && ./hebe link hebe /usr/local/bin && echo -e "Installation completed\n\n Hebe help:" && hebe
@@ -91,13 +91,14 @@ And this is how the `hebe.json` manifest would look like:
 
 
 # Registered projects
-Whenever you register a project it gets stored in a local file at `~/.hebe/projects`. You can edit this file manually and next time you run hebe it will show it updated.
+Whenever you register a project it gets stored in a local file at `~/.hebe/projects`. You can edit this file manually and next time you run hebe it will pick up your changes.
 
 # License
 [LICENSE](LICENSE)
 
 
-- [RocketTheme Team][rockettheme]
+# Authors
+[RocketTheme Team][rockettheme]
 
 
 [rockettheme]: http://www.rockettheme.com
