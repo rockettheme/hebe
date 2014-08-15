@@ -5,7 +5,7 @@ Usage:  %{app} help [<command>]
         %{app} sync [<project[s]>] [+update]
         %{app} link <project[s]> [+d[est[ination]]] <path[s]> [+p[lat[form]] <platform>] [+force] [+name <name> (works only on Custom)]
         %{app} edit <project[s]> [+p[lat[form]] <platform[s]>]
-        ${app} aliases
+        %{app} aliases
         %{app} update
         %{app} version
 
