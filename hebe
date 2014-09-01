@@ -202,7 +202,7 @@ switch ($command){
 
 	case 'version': case '--version': case '-v':
 		$path = dirname(__FILE__);
-		$version = exec("git --no-pager log --pretty=format:'%h (%aD)' -n 1");
+		$version = exec("git --no-pager --git-dir=$path/.git log --pretty=format:'%h (%aD)' -n 1");
 
 		Hebe::message("Hebe " . $version ." - RocketTheme");
 		Hebe::message("Copyright (c) RocketTheme");
