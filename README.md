@@ -16,6 +16,13 @@ cd ~ && git clone https://github.com/rockettheme/hebe.git &&  cd hebe && ./hebe 
 Now you are all set with hebe, you can run `hebe` from anywhere in your terminal and `hebe help` to get a list of commands.
 
 
+# Update
+You can easily update hebe from anywhere by running the command
+```bash
+hebe update
+```
+
+
 # How does it work
 For instance, let's say you are working on a component for Joomla, that has also a module, a plugin and a library.
 
