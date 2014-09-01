@@ -211,9 +211,9 @@ switch ($command){
 
 	case 'update':
 		$path = dirname(__FILE__);
-		exec("git --no-pager log -p HEAD..origin/master --pretty=oneline --abbrev-commit", $logs);
+		exec("git --no-pager --git-dir=$path/.git log ..@{u} --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
 
-		if (!$logs){
+		if (!$logs || !count($logs)){
 			Hebe::message("Already up-to-date.");
 			break;
 		}
