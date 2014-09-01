@@ -202,24 +202,29 @@ switch ($command){
 
 	case 'version': case '--version': case '-v':
 		$path = dirname(__FILE__);
-		$date = exec("svn info '".$path."' | awk '/^Last Changed Date:/ {print $7,$8,$9,$10,$5}'");
-		$version = exec("svn info '".$path."' | grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
+		$version = exec("git --no-pager log --pretty=format:'%h (%aD)' -n 1");
 
-		Hebe::message("\nHebe v" . $version . " - ".$date." - RocketTheme\n");
+		Hebe::message("Hebe " . $version ." - RocketTheme");
+		Hebe::message("Copyright (c) RocketTheme");
 
 		break;
 
 	case 'update':
 		$path = dirname(__FILE__);
-		$version = exec("svn info '".$path."' | grep '^Last Changed Rev:' | sed -e 's/^Last Changed Rev: //'");
+		exec("git --no-pager log -p HEAD..origin/master --pretty=oneline --abbrev-commit", $logs);
+
+		if (!$logs){
+			Hebe::message("Already up-to-date.");
+			break;
+		}
 
 		Hebe::message("\nUpdating Hebe...");
-		Hebe::message(exec("svn update '".$path."'"));
+		exec("cd ". $path);
+		Hebe::message(exec("git pull '".$path."'"));
 		Hebe::message("\n");
 
 		Hebe::message("Retrieving Updates Log...");
-		exec("svn log '".$path."' -r ".$version.":HEAD", $output);
-		Hebe::message(implode("\n", $output)."\n");
+		Hebe::message(implode("\n", $logs)."\n");
 
 		break;
 
