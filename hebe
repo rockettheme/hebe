@@ -49,7 +49,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->register($options);
+		$hebe::$projects->register($options);
 
 		break;
 
@@ -70,7 +70,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->unregister($options);
+		$hebe::$projects->unregister($options);
 
 		break;
 
@@ -99,7 +99,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->list_project($selected);
+		$hebe::$projects->list_project($selected);
 
 		break;
 
@@ -146,7 +146,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->link_project($selected);
+		$hebe::$projects->link_project($selected);
 		break;
 
 	case 'edit':
@@ -174,7 +174,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->edit_project($selected);
+		$hebe::$projects->edit_project($selected);
 		break;
 
 	case 'sync':
@@ -196,7 +196,7 @@ switch ($command){
 		}
 
 		$hebe = new Hebe();
-		$hebe->projects->sync_projects($selected);
+		$hebe::$projects->sync_projects($selected);
 		break;
 
 

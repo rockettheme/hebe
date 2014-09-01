@@ -10,10 +10,10 @@ Class HebeProjects {
 	public function __construct($config){
 		if (!Hebe::requirements()) return false;
 
-		$this->projects_path = exec('echo $HOME').'/.hebe';
-		$this->projects_file = $this->projects_path.'/projects';
+		self::$projects_path = exec('echo $HOME').'/.hebe';
+		self::$projects_file = self::$projects_path.'/projects';
 
-		$this->config = $config;
+		self::$config = $config;
 
 		$this->create_projects_file();
 		$this->load_projects_file();
@@ -21,10 +21,10 @@ Class HebeProjects {
 
 	public function load_manifest($manifest, $platform = false){
 		$manifest = $this->_clean_path($manifest, 'right');
-		if (is_dir($manifest)) $manifest .= DS . $this->config->get('manifest');
+		if (is_dir($manifest)) $manifest .= DS . self::$config->get('manifest');
 
-		if (!preg_match("/".$this->config->get('manifest')."$/", $manifest))
-			throw new Exception("Error: The passed in manifest ($manifest) appears to be invalid. Expected manifest is `".$this->config->get('manifest')."`.");
+		if (!preg_match("/".self::$config->get('manifest')."$/", $manifest))
+			throw new Exception("Error: The passed in manifest ($manifest) appears to be invalid. Expected manifest is `".self::$config->get('manifest')."`.");
 
 		$data = file_get_contents($manifest);
 		$data = (strlen($data)) ? json_decode($data, true) : array();
@@ -40,22 +40,22 @@ Class HebeProjects {
 	}
 
 	private function create_projects_file(){
-		if (!is_dir($this->projects_path) && !@mkdir($this->projects_path)){
-			Hebe::error("Failed to create folder `".$this->projects_path."`");
+		if (!is_dir(self::$projects_path) && !@mkdir(self::$projects_path)){
+			Hebe::error("Failed to create folder `".self::$projects_path."`");
 		}
 
-		if (!file_exists($this->projects_file) && !@fopen($this->projects_file, "a+")){
-			Hebe::error("Failed to create the projects file " . $this->projects_file);
+		if (!file_exists(self::$projects_file) && !@fopen(self::$projects_file, "a+")){
+			Hebe::error("Failed to create the projects file " . self::$projects_file);
 		}
 
-		@fclose($this->projects_file);
+		@fclose(self::$projects_file);
 	}
 
 	public function load_projects_file(){
-		$data = file_get_contents($this->projects_file);
+		$data = file_get_contents(self::$projects_file);
 		$data = (strlen($data)) ? json_decode($data, true) : array();
 
-		if ($data === null) Hebe::error("Failed to decode the projects file `".$this->projects_file."`" . json_error());
+		if ($data === null) Hebe::error("Failed to decode the projects file `".self::$projects_file."`" . json_error());
 		else $this->data = $data;
 
 		if (!count($this->data)){
@@ -67,8 +67,8 @@ Class HebeProjects {
 	public function save_projects_file(){
 		$data = stripslashes(json_beautify(json_encode($this->data)));
 
-		if (!@file_put_contents($this->projects_file, $data)){
-			Hebe::error("Unable to save the projects changes into `".$this->projects_file."`");
+		if (!@file_put_contents(self::$projects_file, $data)){
+			Hebe::error("Unable to save the projects changes into `".self::$projects_file."`");
 		}
 	}
 
@@ -100,7 +100,7 @@ Class HebeProjects {
 
 				foreach($platforms as $platform){
 					if (!isset($this->data[$project][$platform]) || $force){
-						$this->data[$project][$platform]= rtrim(preg_replace("/".$this->config->get('manifest')."$/", "", $location), '/');
+						$this->data[$project][$platform]= rtrim(preg_replace("/".self::$config->get('manifest')."$/", "", $location), '/');
 						$added[] = ucfirst($platform);
 					} else {
 						$skipped[] = ucfirst($platform);
@@ -324,7 +324,7 @@ Class HebeProjects {
 											else $destination .= $node;
 										}
 
-										if ($this->config->get('backup_existing_when_linking')){
+										if (self::$config->get('backup_existing_when_linking')){
 											if (file_exists($destination)){
 												exec('rm -rf '.$destination.'.backup');
 												exec('mv '.$destination.' '.$destination.'.backup');
@@ -387,7 +387,7 @@ Class HebeProjects {
 			}
 		}
 
-		if (count($list)) exec($this->config->get('editor') . ' ' . implode(" ", $list));
+		if (count($list)) exec(self::$config->get('editor') . ' ' . implode(" ", $list));
 	}
 
 	public function sync_projects($options = array("arguments" => array(), "update" => false)){

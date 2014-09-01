@@ -9,8 +9,8 @@ Class HebeConfig {
 	public function __construct(){
 		if (!Hebe::requirements()) return false;
 
-		$this->config_path = exec('echo $HOME').'/.hebe';
-		$this->config_file = $this->config_path.'/config';
+		self::$config_path = exec('echo $HOME').'/.hebe';
+		self::$config_file = self::$config_path.'/config';
 
 		$this->data = new stdClass();
 
@@ -19,28 +19,28 @@ Class HebeConfig {
 	}
 
 	private function create_config(){
-		if (!is_dir($this->config_path) && !@mkdir($this->config_path)){
-			Hebe::error("Failed to create folder `".$this->config_path."`");
+		if (!is_dir(self::$config_path) && !@mkdir(self::$config_path)){
+			Hebe::error("Failed to create folder `".self::$config_path."`");
 		}
 
-		if (!file_exists($this->config_file) && !@copy(PATH . '/resources/config', $this->config_file)){
+		if (!file_exists(self::$config_file) && !@copy(PATH . '/resources/config', self::$config_file)){
 			Hebe::error("Failed to copy default config file from `" .
-				PATH . "/resources/config` " . "to " . $this->config_file);
+				PATH . "/resources/config` " . "to " . self::$config_file);
 		}
 	}
 
 	public function load_config(){
-		$data = json_decode(file_get_contents($this->config_file));
+		$data = json_decode(file_get_contents(self::$config_file));
 
-		if (!$data) Hebe::error("Failed to decode the config file `".$this->config_file."`" . json_error());
+		if (!$data) Hebe::error("Failed to decode the config file `".self::$config_file."`" . json_error());
 		else $this->data = $data;
 	}
 
 	public function save_config(){
 		$data = json_beautify(json_encode($this->data));
 
-		if (!@file_put_contents($this->config_file, $data)){
-			Hebe::error("Unable to save the configuration changes into `".$this->config_file."`");
+		if (!@file_put_contents(self::$config_file, $data)){
+			Hebe::error("Unable to save the configuration changes into `".self::$config_file."`");
 		}
 	}
 

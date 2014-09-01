@@ -25,18 +25,18 @@ Class Hebe {
 	}
 
 	public function __construct(){
-		$this->config = new HebeConfig();
-		$this->config_data = $this->config->data;
+		self::$config = new HebeConfig();
+		self::$config_data = self::$config->data;
 
-		$this->projects = new HebeProjects($this->config);
-		$this->projects_data = $this->projects->data;
+		self::$projects = new HebeProjects(self::$config);
+		self::$projects_data = self::$projects->data;
 	}
 
-	public function load($config_path = null){
+	public static function load($config_path = null){
 			if (!$config_path) $path = '';
 	}
 
-	public function requirements(){
+	public static function requirements(){
 		$errors = array();
 		if (!function_exists("exec")) $errors[] = "exec() function appears to be disabled but required.";
 
