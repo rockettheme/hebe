@@ -211,6 +211,8 @@ switch ($command){
 
 	case 'update':
 		$path = dirname(__FILE__);
+		Hebe::message("Fetching headers..");
+		exec("git --git-dir=$path/.git fetch -q");
 		exec("git --no-pager --git-dir=$path/.git log ..@{u} --pretty=format:'%Cred%h%Creset %d %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
 
 		if (!$logs || !count($logs)){
@@ -220,7 +222,7 @@ switch ($command){
 
 		Hebe::message("\nUpdating Hebe...");
 		exec("cd ". $path);
-		Hebe::message(exec("git pull '".$path."'"));
+		Hebe::message(exec("git --git-dir=$path/.git pull"));
 		Hebe::message("\n");
 
 		Hebe::message("Retrieving Updates Log...");
