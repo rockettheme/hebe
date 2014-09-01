@@ -1,5 +1,5 @@
 # Welcome to hebe!
-`hebe` is an internal tool that we use at [RocketTheme][rockettheme] to help create easy symbolic links to our projects and setup environments quickly.
+`hebe` is an internal tool that we use at [RocketTheme][rockettheme] to help create easy symbolic links to our projects and quickly set up and running environments.
 
 Every projects that has a `hebe.json` manifest can be _registered_ and then linked whenever needed. Hebe itself is registrable.
 
