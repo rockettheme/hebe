@@ -98,7 +98,7 @@ And this is how the `hebe.json` manifest would look like:
 
 
 # Registered projects
-Whenever you register a project it gets stored in a local file at `~/.hebe/projects`. You can edit this file manually and next time you run hebe it will pick up your changes.
+Whenever you register a project it gets stored in a local file locate at `~/.hebe/projects`. You can edit this file manually and next time you run hebe it will pick up your changes.
 
 # License
 [LICENSE](LICENSE)
