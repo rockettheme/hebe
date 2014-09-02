@@ -1,8 +1,5 @@
 #!/usr/bin/env php
 <?php
-// env to debug with MAMP
-// #!/Applications//MAMP/bin/php/php5.3.6/bin/php
-
 /*
 	Getting Started:
 		https://gist.github.com/b038bb8076754968eff5
