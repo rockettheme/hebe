@@ -199,7 +199,7 @@ switch ($command){
 
 	case 'version': case '--version': case '-v':
 		$path = dirname(__FILE__);
-		$version = exec("git --no-pager --git-dir=$path/.git log --pretty=format:'%h (%aD)' -n 1");
+		$version = exec("cd $path && git --no-pager log --pretty=format:'%h (%aD)' -n 1");
 
 		Hebe::message("Hebe " . $version ." - RocketTheme");
 		Hebe::message("Copyright (c) RocketTheme");
@@ -209,8 +209,8 @@ switch ($command){
 	case 'update':
 		$path = dirname(__FILE__);
 		Hebe::message("Fetching headers..");
-		exec("git --git-dir=$path/.git fetch -q");
-		exec("git --no-pager --git-dir=$path/.git log ..@{u} --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
+		exec("cd $path && git fetch -q");
+		exec("cd $path && git --no-pager log ..@{u} --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
 
 		if (!$logs || !count($logs)){
 			Hebe::message("Already up-to-date.");
