@@ -10,7 +10,7 @@ The reason we decided to create `Hebe` is because often times we have projects t
 You can install hebe by running the one-line command below, making sure you change directory to the folder you actually want hebe to get cloned to. By default it gets installed at the root of your `$HOME` directory.
 
 ```bash
-cd ~ && git clone https://github.com/rockettheme/hebe.git &&  cd hebe && ./hebe register . && ./hebe link hebe /usr/local/bin && echo -e "Installation completed\n\n Hebe help:" && hebe
+cd ~ && git clone https://github.com/rockettheme/hebe.git && cd hebe && ./hebe register . && ./hebe link hebe /usr/local/bin && echo -e "Installation completed\n\n Hebe help:" && hebe
 ```
 
 Now you are all set with hebe, you can run `hebe` from anywhere in your terminal and `hebe help` to get a list of commands.
