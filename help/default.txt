@@ -23,7 +23,7 @@ Commands:
                 filter by string or regexp.
 
   sync          Synchronize the projects by re-registering the manifests. With the
-                options '+update' the projects will get SVN updated first.
+                options '+update' the projects will get GIT/SVN updated first.
 
   link          Link one or multiple projects to a specific destination (can be
                 multiple at one time). Link command autodetects the platform of
@@ -42,9 +42,8 @@ Commands:
                 the need of adding new platforms without the need of having to copy
                 the nodes/structure again.
 
-  update        If Hebe has been checked out, update will perform an SVN UPDATE
+  update        If Hebe has been checked out, update will perform an GIT PULL
                 and update the app to its latest revision.
 
   version       Shows Hebe's version. Hebe versioning system is simply based on
-                SVN revision.
-
+                GIT commit.

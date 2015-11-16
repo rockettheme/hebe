@@ -1,6 +1,5 @@
 Usage: %{app} update
 
 Description:
-  If Hebe has been checked out, update will perform an SVN UPDATE and update the app to its
+  If Hebe has been checked out, update will perform an GIT PULL and update the app to its
   latest revision.
-
