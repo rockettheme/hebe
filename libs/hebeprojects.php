@@ -415,7 +415,7 @@ Class HebeProjects {
 		if (count($errors)) Hebe::message("Some have not been found: ".implode(", ", $errors));
 
 		if ($update){
-			Hebe::message("\nNote that with the update option, every project will get svn updated first. \nThis might take some time based on how many projects you have, speed connection, etc...");
+			Hebe::message("\nNote that with the update option, every project will get git/svn updated first. \nThis might take some time based on how many projects you have, speed connection, etc...");
 		}
 
 		Hebe::message("\n");
@@ -432,8 +432,15 @@ Class HebeProjects {
 				} else {
 					$update_status = "";
 					if ($update){
-						exec("svn update ". $node);
-						$update_status = "updated and ";
+						if (file_exists($node . DS . '.svn')) {
+							exec("svn update ". $node);
+							$update_status .= 'svn ';
+						}
+						else if (file_exists($node . DS . '.git')) {
+							exec("cd $node && git pull");
+							$update_status .= 'git ';
+						}
+						$update_status .= "updated and ";
 					}
 
 					$options = array("arguments" => array($node), "name" => $project, "force" => true, "silent" => true);
