@@ -11,6 +11,7 @@ class HebePlatform
 	const DOESNT_HAVE     = false;
 	const CUSTOM_PLATFORM = 'custom';
 	protected static $fallbacks = array(
+		'joomla33' => 'joomla31',
 		'joomla32' => 'joomla31',
 		'joomla31' => 'joomla3',
 		'joomla3'  => 'joomla25',
@@ -262,10 +263,10 @@ class HebePlatform
 				'/logs',
 				'/media',
 				'/media/cms',
-				'/media/com_banners',
 				'/media/com_contenthistory',
 				'/media/com_finder',
 				'/media/com_joomlaupdate',
+				'/media/com_wrapper',
 				'/media/contacts',
 				'/media/editors',
 				'/media/jui',
