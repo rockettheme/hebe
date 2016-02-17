@@ -11,6 +11,7 @@ class HebePlatform
 	const DOESNT_HAVE     = false;
 	const CUSTOM_PLATFORM = 'custom';
 	protected static $fallbacks = array(
+		'joomla34' => 'joomla31',
 		'joomla33' => 'joomla31',
 		'joomla32' => 'joomla31',
 		'joomla31' => 'joomla3',

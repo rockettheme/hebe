@@ -8,7 +8,7 @@ Class HebeProjects {
 	public $data = array();
 
 	public function __construct($config){
-		if (!Hebe::requirements()) return false;
+		if (!Hebe::requirements()) return;
 
 		self::$projects_path = exec('echo $HOME').'/.hebe';
 		self::$projects_file = self::$projects_path.'/projects';
@@ -19,7 +19,7 @@ Class HebeProjects {
 		$this->load_projects_file();
 	}
 
-	public function load_manifest($manifest, $platform = false){
+	public function load_manifest($manifest, $platform = false, $projectName = false){
 		$manifest = $this->_clean_path($manifest, 'right');
 		if (is_dir($manifest)) $manifest .= DS . self::$config->get('manifest');
 
@@ -32,6 +32,16 @@ Class HebeProjects {
 		if ($data === null) throw new Exception("Failed to decode the manifest file `".$manifest."`" . json_error());
 
 		if ($platform != false){
+			if (array_keys($data)[0] === 0) {
+				// Multiple projects.
+				foreach ($data as $project) {
+					if (isset($project['project']) && strtolower($project['project']) === strtolower($projectName)) {
+						$data = $project;
+						break;
+					}
+				}
+			}
+
 			$key = array_key_exists_nc($platform, $data['platforms']);
 			if ($key) $data = $data['platforms'][$key];
 		}
@@ -279,7 +289,7 @@ Class HebeProjects {
 							$manifest = $this->load_manifest($working_path);
 							$requires = isset($manifest['requires']) ? $manifest['requires'] : array();
 
-							$manifest = $this->load_manifest($working_path, $platform);
+							$manifest = $this->load_manifest($working_path, $platform, $name);
 							$nodes = $manifest['nodes'];
 
 							if (!$silent) Hebe::message("   └ " . $name . " [".$platform."]");
