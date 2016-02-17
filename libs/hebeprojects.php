@@ -81,53 +81,62 @@ Class HebeProjects {
 		foreach($locations as $location){
 			$location = $this->_fix_path($location);
 			$manifest = $this->load_manifest($location);
+
 			if ($manifest != null){
-				$project = isset($manifest['project']) ? $manifest['project'] : false;
-				$requires = isset($manifest['requires']) ? $manifest['requires'] : array();
-
-				if ($name !== false) $project = $name;
-
-				$platforms = array_keys($manifest['platforms']);
-
-				$added = array();
-				$skipped = array();
-				$newproject = false;
-
-				if (!isset($this->data[$project])){
-					$this->data[$project] = array();
-					$newproject = true;
+				// it's a single project, convert to array
+				if (array_keys($manifest)[0] !== 0) {
+					$manifest = array($manifest);
 				}
 
-				foreach($platforms as $platform){
-					if (!isset($this->data[$project][$platform]) || $force){
-						$this->data[$project][$platform]= rtrim(preg_replace("/".self::$config->get('manifest')."$/", "", $location), '/');
-						$added[] = ucfirst($platform);
-					} else {
-						$skipped[] = ucfirst($platform);
+				foreach ($manifest as $manifesto) {
+
+					$project = isset($manifesto['project']) ? $manifesto['project'] : false;
+					$requires = isset($manifesto['requires']) ? $manifesto['requires'] : array();
+
+					if ($name !== false) $project = $name;
+
+					$platforms = array_keys($manifesto['platforms']);
+
+					$added = array();
+					$skipped = array();
+					$newproject = false;
+
+					if (!isset($this->data[$project])){
+						$this->data[$project] = array();
+						$newproject = true;
 					}
-				}
 
-				$message = "";
-				if (count($added)) $message .= "\n   └ added: " . implode($added, ", ");
-				if (count($skipped)) $message .= "\n   └ skipped: " . implode($skipped, ", ");
-				if (!count($added) && !count($skipped)) $message .= "\n   └ no platforms";
-
-				$status = ($newproject ? "created." : (count($added) ? "updated." : "skipped."));
-
-				if (!$silent) Hebe::message("\nProject `" . $project . "` " . $status . $message ."\n");
-
-				if (isset($requires)){
-					$requirements = array();
-					foreach($requires as $require_project => $require_data){
-						if (!isset($this->data[$require_project])){
-							array_push($requirements, $require_project);
+					foreach($platforms as $platform){
+						if (!isset($this->data[$project][$platform]) || $force){
+							$this->data[$project][$platform]= rtrim(preg_replace("/".self::$config->get('manifest')."$/", "", $location), '/');
+							$added[] = ucfirst($platform);
+						} else {
+							$skipped[] = ucfirst($platform);
 						}
 					}
 
-					if (count($requirements)){
-						if (!$silent){
-							Hebe::message("Warning: Project `".$project."` requires the projects `".implode(", ", $requirements)."` to be registered.");
-							Hebe::message("         Please run ./hebe register <projects working path>\n");
+					$message = "";
+					if (count($added)) $message .= "\n   └ added: " . implode($added, ", ");
+					if (count($skipped)) $message .= "\n   └ skipped: " . implode($skipped, ", ");
+					if (!count($added) && !count($skipped)) $message .= "\n   └ no platforms";
+
+					$status = ($newproject ? "created." : (count($added) ? "updated." : "skipped."));
+
+					if (!$silent) Hebe::message("\nProject `" . $project . "` " . $status . $message ."\n");
+
+					if (isset($requires)){
+						$requirements = array();
+						foreach($requires as $require_project => $require_data){
+							if (!isset($this->data[$require_project])){
+								array_push($requirements, $require_project);
+							}
+						}
+
+						if (count($requirements)){
+							if (!$silent){
+								Hebe::message("Warning: Project `".$project."` requires the projects `".implode(", ", $requirements)."` to be registered.");
+								Hebe::message("         Please run ./hebe register <projects working path>\n");
+							}
 						}
 					}
 				}
