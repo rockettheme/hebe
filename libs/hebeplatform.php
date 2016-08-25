@@ -1154,14 +1154,11 @@ class HebePlatform
 	{
 		$current_platform = self::CUSTOM_PLATFORM;
 		foreach (self::$fingerprints as $platform => $tests) {
-			echo $platform . "\n";
 			$matched_platform = true;
 			foreach ($tests as $test => $testpaths) {
-				echo $test . "\n";
 				foreach ($testpaths as $testpath) {
 					if ($test != file_exists($path . $testpath)) {
 						$matched_platform = false;
-						echo "FAIL: $path . $testpath\n";
 						break(2);
 					}
 				}
