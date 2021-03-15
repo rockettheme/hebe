@@ -1,13 +1,16 @@
 <?php
 
-Class HebeConfig {
-
+class HebeConfig
+{
 	private static $config_path = '';
 	private static $config_file = '';
 	public $data;
 
-	public function __construct(){
-		if (!Hebe::requirements()) return false;
+	public function __construct()
+    {
+		if (!Hebe::requirements()) {
+		    return;
+        }
 
 		self::$config_path = exec('echo $HOME').'/.hebe';
 		self::$config_file = self::$config_path.'/config';
@@ -18,25 +21,31 @@ Class HebeConfig {
 		$this->load_config();
 	}
 
-	private function create_config(){
-		if (!is_dir(self::$config_path) && !@mkdir(self::$config_path)){
+	private function create_config()
+    {
+		if (!is_dir(self::$config_path) && !@mkdir(self::$config_path)) {
 			Hebe::error("Failed to create folder `".self::$config_path."`");
 		}
 
-		if (!file_exists(self::$config_file) && !@copy(PATH . '/resources/config', self::$config_file)){
+		if (!file_exists(self::$config_file) && !@copy(PATH . '/resources/config', self::$config_file)) {
 			Hebe::error("Failed to copy default config file from `" .
 				PATH . "/resources/config` " . "to " . self::$config_file);
 		}
 	}
 
-	public function load_config(){
+	public function load_config()
+    {
 		$data = json_decode(file_get_contents(self::$config_file));
 
-		if (!$data) Hebe::error("Failed to decode the config file `".self::$config_file."`" . json_error());
-		else $this->data = $data;
+		if (!$data) {
+		    Hebe::error("Failed to decode the config file `".self::$config_file."`" . json_error());
+        } else {
+		    $this->data = $data;
+        }
 	}
 
-	public function save_config(){
+	public function save_config()
+    {
 		$data = json_beautify(json_encode($this->data));
 
 		if (!@file_put_contents(self::$config_file, $data)){
@@ -44,24 +53,30 @@ Class HebeConfig {
 		}
 	}
 
-	public function get($option){
+	public function get($option)
+    {
 		if (!isset($this->data->$option)) {
 			Hebe::error("Unable to find the option `".$option."`");
 			return null;
-		} else {
-			return $this->data->$option;
 		}
+
+        return $this->data->$option;
 	}
 
-	public function set($option, $value){
-		if (!isset($value)) return Hebe::error("A value is required for the option `".$option."`");
+	public function set($option, $value)
+    {
+		if (!isset($value)) {
+		    return Hebe::error("A value is required for the option `".$option."`");
+        }
 
-		if (!isset($this->data->$option)){
+		if (!isset($this->data->$option)) {
 			return Hebe::error("Unable to find the option `".$option."`");
 		}
 
 		$this->data->$option = $value;
 		$this->save_config();
+
+		return null;
 	}
 
 }

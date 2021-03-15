@@ -11,7 +11,11 @@ class HebePlatform
 	const DOESNT_HAVE     = false;
 	const CUSTOM_PLATFORM = 'custom';
 	protected static $fallbacks = array(
-		'joomla'   => 'joomla36',
+		'joomla'   => 'joomla310',
+        'joomla310'   => 'joomla39',
+        'joomla39'   => 'joomla38',
+        'joomla38'   => 'joomla37',
+        'joomla37'   => 'joomla36',
 		'joomla36' => 'joomla34',
 		'joomla35' => 'joomla34',
 		'joomla34' => 'joomla31',
@@ -31,12 +35,6 @@ class HebePlatform
 				'/public'
 			)
 		),
-		'prime'		=> array(
-		    self::DOESNT_HAVE => array(),
-		    self::HAS 		  => array(
-		        '/.prime'
-		    )
-		 ),
 		'grav'		=> array(
 		    self::DOESNT_HAVE => array(),
 		    self::HAS 		  => array(
@@ -70,20 +68,12 @@ class HebePlatform
 				'/wp-admin/css',
 				'/wp-admin/images',
 				'/wp-admin/includes',
-				'/wp-admin/js',
-				'/wp-admin/maint',
-				'/wp-admin/network',
-				'/wp-admin/user',
 				'/wp-content',
 				'/wp-content/plugins',
 				'/wp-content/themes',
 				'/wp-includes',
 				'/wp-includes/css',
-				'/wp-includes/images',
-				'/wp-includes/js',
-				'/wp-includes/pomo',
-				'/wp-includes/Text',
-				'/wp-includes/theme-compat',
+				'/wp-includes/images'
 			)
 		),
 		'drupal7'   => array(

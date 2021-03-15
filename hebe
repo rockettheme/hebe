@@ -5,8 +5,8 @@
 		https://gist.github.com/b038bb8076754968eff5
 */
 
-define("PATH", dirname(__FILE__));
-require dirname(__FILE__) . '/libs/hebe.php';
+define("PATH", __DIR__);
+require __DIR__ . '/libs/hebe.php';
 
 $app = array_shift($argv);
 $command = array_shift($argv);
@@ -19,7 +19,9 @@ if (!$command) $command = 'help';
 switch ($command){
 
 	case 'register':
-		if (count($arguments) < 1) usage($command);
+		if (count($arguments) < 1) {
+		    usage($command);
+        }
 		$options = array(
 			'arguments' => array(),
 			'name' => "",
@@ -28,20 +30,24 @@ switch ($command){
 
 		$build = 'arguments';
 
-		foreach ($arguments as $arg){
+		foreach ($arguments as $arg) {
 
-			if ($arg == '+name'){
+			if ($arg === '+name') {
 				$build = 'name';
 				continue;
 			}
 
-			if ($arg == '+force'){
+			if ($arg === '+force') {
 				$build = 'force';
 			}
 
-			if (is_array($options[$build])) $options[$build][] = $arg;
-			else if (is_bool($options[$build])) $options[$build] = true;
-			else $options[$build] = $arg;
+			if (is_array($options[$build])) {
+			    $options[$build][] = $arg;
+            } elseif (is_bool($options[$build])) {
+			    $options[$build] = true;
+            } else {
+			    $options[$build] = $arg;
+            }
 
 		}
 
@@ -51,18 +57,24 @@ switch ($command){
 		break;
 
 	case 'unregister':
-		if (count($arguments) < 1) usage($command);
+		if (count($arguments) < 1) {
+		    usage($command);
+        }
+
 		$options = array(
 			'arguments' => array()
 		);
 
 		$build = 'arguments';
 
-		foreach ($arguments as $arg){
-
-			if (is_array($options[$build])) $options[$build][] = $arg;
-			else if (is_bool($options[$build])) $options[$build] = true;
-			else $options[$build] = $arg;
+		foreach ($arguments as $arg) {
+			if (is_array($options[$build])) {
+			    $options[$build][] = $arg;
+            } elseif (is_bool($options[$build])) {
+			    $options[$build] = true;
+            } else {
+			    $options[$build] = $arg;
+            }
 
 		}
 
@@ -83,15 +95,19 @@ switch ($command){
 
 		$build = 'filter';
 
-		foreach ($arguments as $arg){
-			if ($arg == '+filter' || $arg == '+filters'){
+		foreach ($arguments as $arg) {
+			if ($arg === '+filter' || $arg === '+filters') {
 				$build = 'filter';
 				continue;
 			}
 
-			if (is_array($selected[$build])) $selected[$build][] = $arg;
-			else if (is_bool($selected[$build])) $selected[$build] = true;
-			else $selected[$build] = $arg;
+			if (is_array($selected[$build])) {
+			    $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+			    $selected[$build] = true;
+            } else {
+			    $selected[$build] = $arg;
+            }
 
 		}
 
@@ -101,7 +117,9 @@ switch ($command){
 		break;
 
 	case 'link':
-		if (count($arguments) < 1) usage($command);
+		if (count($arguments) < 1) {
+		    usage($command);
+        }
 		$selected = array(
 			'destinations' => array(),
 			'projects' => array(),
@@ -113,33 +131,37 @@ switch ($command){
 		$build = 'projects';
 
 		foreach ($arguments as $arg){
-			if ($arg == '+project' || $arg == '+projects' || $arg == '+proj'){
+			if ($arg === '+project' || $arg === '+projects' || $arg === '+proj') {
 				$build = 'projects';
 				continue;
 			}
 
-			if ($arg == '+platforms' || $arg == "+platform" || $arg == '+plat' || $arg == '+p'){
+			if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
 				$build = 'platform';
 				continue;
 			}
 
-			if ($arg == '+destination' || $arg == '+destinations' || $arg == '+dest' || $arg == '+d'){
+			if ($arg === '+destination' || $arg === '+destinations' || $arg === '+dest' || $arg === '+d') {
 				$build = 'destinations';
 				continue;
 			}
 
-			if ($arg == '+name' || $arg == '+n'){
+			if ($arg === '+name' || $arg === '+n') {
 				$build = 'name';
 				continue;
 			}
 
-			if ($arg == '+force'){
+			if ($arg === '+force') {
 				$build = 'force';
 			}
 
-			if (is_array($selected[$build])) $selected[$build][] = $arg;
-			else if (is_bool($selected[$build])) $selected[$build] = true;
-			else $selected[$build] = $arg;
+			if (is_array($selected[$build])) {
+			    $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+			    $selected[$build] = true;
+            } else {
+			    $selected[$build] = $arg;
+            }
 		}
 
 		$hebe = new Hebe();
@@ -147,7 +169,9 @@ switch ($command){
 		break;
 
 	case 'edit':
-		if (count($arguments) < 1) usage($command);
+		if (count($arguments) < 1) {
+		    usage($command);
+        }
 		$selected = array(
 			'arguments' => array(),
 			'platforms' => array(),
@@ -156,18 +180,22 @@ switch ($command){
 
 		$build = 'arguments';
 
-		foreach ($arguments as $arg){
-			if ($arg == '+platforms' || $arg == "+platform" || $arg == '+plat' || $arg == '+p'){
+		foreach ($arguments as $arg) {
+			if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
 				$build = 'platforms';
 				continue;
 			}
-			if ($arg == '+force'){
+			if ($arg === '+force') {
 				$build = 'force';
 			}
 
-			if (is_array($selected[$build])) $selected[$build][] = $arg;
-			else if (is_bool($selected[$build])) $selected[$build] = true;
-			else $selected[$build] = $arg;
+			if (is_array($selected[$build])) {
+			    $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+			    $selected[$build] = true;
+            } else {
+			    $selected[$build] = $arg;
+            }
 		}
 
 		$hebe = new Hebe();
@@ -183,13 +211,17 @@ switch ($command){
 		$build = 'arguments';
 
 		foreach ($arguments as $arg){
-			if ($arg == '+update' || $arg == '+u'){
+			if ($arg === '+update' || $arg === '+u') {
 				$build = 'update';
 			}
 
-			if (is_array($selected[$build])) $selected[$build][] = $arg;
-			else if (is_bool($selected[$build])) $selected[$build] = true;
-			else $selected[$build] = $arg;
+			if (is_array($selected[$build])) {
+			    $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+			    $selected[$build] = true;
+            } else {
+			    $selected[$build] = $arg;
+            }
 		}
 
 		$hebe = new Hebe();
@@ -198,7 +230,7 @@ switch ($command){
 
 
 	case 'version': case '--version': case '-v':
-		$path = dirname(__FILE__);
+		$path = __DIR__;
 		$version = exec("cd $path && git --no-pager log --pretty=format:'%h (%aD)' -n 1");
 
 		Hebe::message("Hebe " . $version ." - RocketTheme");
@@ -207,7 +239,7 @@ switch ($command){
 		break;
 
 	case 'update':
-		$path = dirname(__FILE__);
+		$path = __DIR__;
 		Hebe::message("Fetching headers..");
 		exec("cd $path && git fetch -q");
 		exec("cd $path && git --no-pager log ..@{u} --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
@@ -227,22 +259,28 @@ switch ($command){
 		break;
 
 	case 'help': case '--help': case '-h': default:
-		if ($command == 'help' && count($arguments)) $file = $arguments[0];
+		if ($command === 'help' && count($arguments)) {
+		    $file = $arguments[0];
+        }
 		usage($file);
 		break;
 }
 
-function usage($command = 'default'){
+function usage($command = 'default')
+{
 	global $app;
 
-	if (is_array($command)) $command = 'default';
-	$dir = dirname(__FILE__);
+	if (is_array($command)) {
+	    $command = 'default';
+    }
+	$dir = __DIR__;
 	$file = $dir."/help/".$command.".txt";
 
-	if (file_exists($file)) Hebe::message(str_replace('%{app}', $app, file_get_contents($file)));
-	else Hebe::error("Unable to find the help file `".$file);
+	if (file_exists($file)) {
+	    Hebe::message(str_replace('%{app}', $app, file_get_contents($file)));
+    } else {
+        Hebe::error("Unable to find the help file `".$file);
+    }
 
 	exit(1);
 }
-
-?>
