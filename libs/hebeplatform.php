@@ -11,7 +11,8 @@ class HebePlatform
 	const DOESNT_HAVE     = false;
 	const CUSTOM_PLATFORM = 'custom';
 	protected static $fallbacks = array(
-		'joomla'   => 'joomla310',
+        'joomla'   => 'joomla4',
+		'joomla4'   => 'joomla310',
         'joomla310'   => 'joomla39',
         'joomla39'   => 'joomla38',
         'joomla38'   => 'joomla37',
@@ -205,7 +206,6 @@ class HebePlatform
 				'/administrator/language',
 				'/administrator/modules',
 				'/administrator/templates',
-				'/bin',
 				'/cache',
 				'/cli',
 				'/components',
@@ -217,6 +217,29 @@ class HebePlatform
 				'/templates'
 			)
 		),
+        'joomla4' => array(
+            self::DOESNT_HAVE => array(
+                '/bin',
+            ),
+            self::HAS => array(
+                '/administrator',
+                '/administrator/components',
+                '/administrator/includes',
+                '/administrator/language',
+                '/administrator/modules',
+                '/administrator/templates',
+                '/api',
+                '/cache',
+                '/cli',
+                '/components',
+                '/images',
+                '/includes',
+                '/language',
+                '/modules',
+                '/plugins',
+                '/templates'
+            )
+        ),
 		'joomla36'  => array(
 			self::DOESNT_HAVE => array(
 				'/components/com_weblinks',
