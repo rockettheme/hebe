@@ -5,8 +5,13 @@
 		https://gist.github.com/b038bb8076754968eff5
 */
 
-define("PATH", __DIR__);
-require __DIR__ . '/libs/hebe.php';
+use Hebe\Hebe;
+
+const PATH = __DIR__;
+
+require __DIR__ . '/vendor/autoload.php';
+
+const DS = DIRECTORY_SEPARATOR;
 
 $app = array_shift($argv);
 $command = array_shift($argv);
@@ -15,272 +20,278 @@ $arguments = $argv;
 $file = 'default';
 $home = exec('echo $HOME');
 
-if (!$command) $command = 'help';
-switch ($command){
-
-	case 'register':
-		if (count($arguments) < 1) {
-		    usage($command);
-        }
-		$options = array(
-			'arguments' => array(),
-			'name' => "",
-			'force' => false
-		);
-
-		$build = 'arguments';
-
-		foreach ($arguments as $arg) {
-
-			if ($arg === '+name') {
-				$build = 'name';
-				continue;
-			}
-
-			if ($arg === '+force') {
-				$build = 'force';
-			}
-
-			if (is_array($options[$build])) {
-			    $options[$build][] = $arg;
-            } elseif (is_bool($options[$build])) {
-			    $options[$build] = true;
-            } else {
-			    $options[$build] = $arg;
-            }
-
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->register($options);
-
-		break;
-
-	case 'unregister':
-		if (count($arguments) < 1) {
-		    usage($command);
-        }
-
-		$options = array(
-			'arguments' => array()
-		);
-
-		$build = 'arguments';
-
-		foreach ($arguments as $arg) {
-			if (is_array($options[$build])) {
-			    $options[$build][] = $arg;
-            } elseif (is_bool($options[$build])) {
-			    $options[$build] = true;
-            } else {
-			    $options[$build] = $arg;
-            }
-
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->unregister($options);
-
-		break;
-
-	case 'list':
-		$selected = array(
-			'arguments' => array(),
-			'filter' => array(),
-			'no_details' => false,
-			'no_nodes' => false,
-			'no_sources' => false,
-			'no_destinations' => false
-		);
-
-		$build = 'filter';
-
-		foreach ($arguments as $arg) {
-			if ($arg === '+filter' || $arg === '+filters') {
-				$build = 'filter';
-				continue;
-			}
-
-			if (is_array($selected[$build])) {
-			    $selected[$build][] = $arg;
-            } elseif (is_bool($selected[$build])) {
-			    $selected[$build] = true;
-            } else {
-			    $selected[$build] = $arg;
-            }
-
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->list_project($selected);
-
-		break;
-
-	case 'link':
-		if (count($arguments) < 1) {
-		    usage($command);
-        }
-		$selected = array(
-			'destinations' => array(),
-			'projects' => array(),
-			'platform' => "",
-			'name'  => "",
-			'force' => false
-		);
-
-		$build = 'projects';
-
-		foreach ($arguments as $arg){
-			if ($arg === '+project' || $arg === '+projects' || $arg === '+proj') {
-				$build = 'projects';
-				continue;
-			}
-
-			if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
-				$build = 'platform';
-				continue;
-			}
-
-			if ($arg === '+destination' || $arg === '+destinations' || $arg === '+dest' || $arg === '+d') {
-				$build = 'destinations';
-				continue;
-			}
-
-			if ($arg === '+name' || $arg === '+n') {
-				$build = 'name';
-				continue;
-			}
-
-			if ($arg === '+force') {
-				$build = 'force';
-			}
-
-			if (is_array($selected[$build])) {
-			    $selected[$build][] = $arg;
-            } elseif (is_bool($selected[$build])) {
-			    $selected[$build] = true;
-            } else {
-			    $selected[$build] = $arg;
-            }
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->link_project($selected);
-		break;
-
-	case 'edit':
-		if (count($arguments) < 1) {
-		    usage($command);
-        }
-		$selected = array(
-			'arguments' => array(),
-			'platforms' => array(),
-			'force' => false
-		);
-
-		$build = 'arguments';
-
-		foreach ($arguments as $arg) {
-			if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
-				$build = 'platforms';
-				continue;
-			}
-			if ($arg === '+force') {
-				$build = 'force';
-			}
-
-			if (is_array($selected[$build])) {
-			    $selected[$build][] = $arg;
-            } elseif (is_bool($selected[$build])) {
-			    $selected[$build] = true;
-            } else {
-			    $selected[$build] = $arg;
-            }
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->edit_project($selected);
-		break;
-
-	case 'sync':
-		$selected = array(
-			'arguments' => array(),
-			'update' => false
-		);
-
-		$build = 'arguments';
-
-		foreach ($arguments as $arg){
-			if ($arg === '+update' || $arg === '+u') {
-				$build = 'update';
-			}
-
-			if (is_array($selected[$build])) {
-			    $selected[$build][] = $arg;
-            } elseif (is_bool($selected[$build])) {
-			    $selected[$build] = true;
-            } else {
-			    $selected[$build] = $arg;
-            }
-		}
-
-		$hebe = new Hebe();
-		$hebe::$projects->sync_projects($selected);
-		break;
-
-
-	case 'version': case '--version': case '-v':
-		$path = __DIR__;
-		$version = exec("cd $path && git --no-pager log --pretty=format:'%h (%aD)' -n 1");
-
-		Hebe::message("Hebe " . $version ." - RocketTheme");
-		Hebe::message("Copyright (c) RocketTheme");
-
-		break;
-
-	case 'update':
-		$path = __DIR__;
-		Hebe::message("Fetching headers..");
-		exec("cd $path && git fetch -q");
-		exec("cd $path && git --no-pager log ..@{u} --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
-
-		if (!$logs || !count($logs)){
-			Hebe::message("Already up-to-date.");
-			break;
-		}
-
-		Hebe::message("\nUpdating Hebe...");
-		Hebe::message(exec("cd ". $path . " && git pull"));
-		Hebe::message("\n");
-
-		Hebe::message("Retrieving Updates Log...");
-		Hebe::message(implode("\n", $logs)."\n");
-
-		break;
-
-	case 'help': case '--help': case '-h': default:
-		if ($command === 'help' && count($arguments)) {
-		    $file = $arguments[0];
-        }
-		usage($file);
-		break;
+if (!$command) {
+  $command = 'help';
 }
 
+switch ($command) {
+    case 'register':
+        if (count($arguments) < 1) {
+            usage($command);
+        }
+
+        $options = [
+            'arguments' => [],
+            'name' => "",
+            'force' => false
+        ];
+
+        $build = 'arguments';
+        foreach ($arguments as $arg) {
+            if ($arg === '+name') {
+                $build = 'name';
+                continue;
+            }
+
+            if ($arg === '+force') {
+                $build = 'force';
+            }
+
+            if (is_array($options[$build])) {
+                $options[$build][] = $arg;
+            } elseif (is_bool($options[$build])) {
+                $options[$build] = true;
+            } else {
+                $options[$build] = $arg;
+            }
+
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->register($options);
+
+        break;
+
+    case 'unregister':
+        if (count($arguments) < 1) {
+            usage($command);
+        }
+
+        $options = [
+            'arguments' => []
+        ];
+
+        $build = 'arguments';
+        foreach ($arguments as $arg) {
+            if (is_array($options[$build])) {
+                $options[$build][] = $arg;
+            } elseif (is_bool($options[$build])) {
+                $options[$build] = true;
+            } else {
+                $options[$build] = $arg;
+            }
+
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->unregister($options);
+
+        break;
+
+    case 'list':
+        $selected = [
+            'arguments' => [],
+            'filter' => [],
+            'no_details' => false,
+            'no_nodes' => false,
+            'no_sources' => false,
+            'no_destinations' => false
+        ];
+
+        $build = 'filter';
+        foreach ($arguments as $arg) {
+            if ($arg === '+filter' || $arg === '+filters') {
+                $build = 'filter';
+                continue;
+            }
+
+            if (is_array($selected[$build])) {
+                $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+                $selected[$build] = true;
+            } else {
+                $selected[$build] = $arg;
+            }
+
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->list_project($selected);
+
+        break;
+
+    case 'link':
+        if (count($arguments) < 1) {
+            usage($command);
+        }
+
+        $selected = [
+            'destinations' => [],
+            'projects' => [],
+            'platform' => "",
+            'name'  => "",
+            'force' => false
+        ];
+
+        $build = 'projects';
+        foreach ($arguments as $arg){
+            if ($arg === '+project' || $arg === '+projects' || $arg === '+proj') {
+                $build = 'projects';
+                continue;
+            }
+
+            if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
+                $build = 'platform';
+                continue;
+            }
+
+            if ($arg === '+destination' || $arg === '+destinations' || $arg === '+dest' || $arg === '+d') {
+                $build = 'destinations';
+                continue;
+            }
+
+            if ($arg === '+name' || $arg === '+n') {
+                $build = 'name';
+                continue;
+            }
+
+            if ($arg === '+force') {
+                $build = 'force';
+            }
+
+            if (is_array($selected[$build])) {
+                $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+                $selected[$build] = true;
+            } else {
+                $selected[$build] = $arg;
+            }
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->link_project($selected);
+        break;
+
+    case 'edit':
+        if (count($arguments) < 1) {
+            usage($command);
+        }
+
+        $selected = [
+            'arguments' => [],
+            'platforms' => [],
+            'force' => false
+        ];
+
+        $build = 'arguments';
+        foreach ($arguments as $arg) {
+            if ($arg === '+platforms' || $arg === "+platform" || $arg === '+plat' || $arg === '+p') {
+                $build = 'platforms';
+                continue;
+            }
+            if ($arg === '+force') {
+                $build = 'force';
+            }
+
+            if (is_array($selected[$build])) {
+                $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+                $selected[$build] = true;
+            } else {
+                $selected[$build] = $arg;
+            }
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->edit_project($selected);
+        break;
+
+    case 'sync':
+        $selected = [
+            'arguments' => [],
+            'update' => false
+        ];
+
+        $build = 'arguments';
+        foreach ($arguments as $arg) {
+            if ($arg === '+update' || $arg === '+u') {
+                $build = 'update';
+            }
+
+            if (is_array($selected[$build])) {
+                $selected[$build][] = $arg;
+            } elseif (is_bool($selected[$build])) {
+                $selected[$build] = true;
+            } else {
+                $selected[$build] = $arg;
+            }
+        }
+
+        $hebe = new Hebe();
+        $hebe::$projects->sync_projects($selected);
+        break;
+
+    case 'version':
+    case '--version':
+    case '-v':
+        $path = __DIR__;
+        $version = exec("cd $path && git --no-pager log --pretty=format:'%h (%aD)' -n 1");
+
+        Hebe::message("Hebe " . $version ." - RocketTheme");
+        Hebe::message("Copyright (c) RocketTheme");
+
+        break;
+
+    case 'update':
+        $path = __DIR__;
+        Hebe::message("Fetching headers..");
+        exec("cd $path && git fetch -q");
+        exec("cd $path && git --no-pager log ..@{u} --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr)%Creset %Cblue[%an]%Creset' --abbrev-commit --date=relative", $logs);
+
+        if (!$logs || !count($logs)){
+            Hebe::message("Already up-to-date.");
+            break;
+        }
+
+        Hebe::message("\nUpdating Hebe...");
+        Hebe::message(exec("cd ". $path . " && git pull"));
+        Hebe::message("\n");
+
+        Hebe::message("Retrieving Updates Log...");
+        Hebe::message(implode("\n", $logs)."\n");
+
+        break;
+
+    case 'help':
+    case '--help':
+    case '-h':
+    default:
+        if ($command === 'help' && count($arguments)) {
+            $file = $arguments[0];
+        }
+        usage($file);
+        break;
+}
+
+/**
+ * @param array|string $command
+ * @return void
+ */
 function usage($command = 'default')
 {
-	global $app;
+    global $app;
 
-	if (is_array($command)) {
-	    $command = 'default';
+    if (is_array($command)) {
+        $command = 'default';
     }
-	$dir = __DIR__;
-	$file = $dir."/help/".$command.".txt";
+    $dir = __DIR__;
+    $file = "{$dir}/help/{$command}.txt";
 
-	if (file_exists($file)) {
-	    Hebe::message(str_replace('%{app}', $app, file_get_contents($file)));
+    if (file_exists($file)) {
+        Hebe::message(str_replace('%{app}', $app, file_get_contents($file)));
     } else {
-        Hebe::error("Unable to find the help file `".$file);
+        Hebe::error("Unable to find the help file `" . $file);
     }
 
-	exit(1);
+    exit(1);
 }

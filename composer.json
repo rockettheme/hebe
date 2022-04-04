@@ -1,0 +1,22 @@
+{
+  "name": "rockettheme/hebe",
+  "type": "project",
+  "description": "Hebe tool for installing stuff",
+  "keywords": [],
+  "homepage": "https://github.com/rockettheme/hebe",
+  "license": "MIT",
+  "require": {
+    "php": "^7.3.6 || ^8.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hebe\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "7.3.6"
+    }
+  }
+}
