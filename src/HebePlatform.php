@@ -5,9 +5,9 @@ namespace Hebe;
 class HebePlatform
 {
     /** @var bool */
-	public const HAS = true;
+	public const HAS = 1;
     /** @var bool */
-	public const DOESNT_HAVE = false;
+	public const DOESNT_HAVE = 0;
     /** @var string */
 	public const CUSTOM_PLATFORM = 'custom';
 
@@ -66,10 +66,11 @@ class HebePlatform
 		foreach (self::$fingerprints as $platform => $tests) {
 			$matched_platform = true;
 			foreach ($tests as $test => $testpaths) {
+                $test = (bool)$test;
 				foreach ($testpaths as $testpath) {
 					if ($test !== file_exists($path . $testpath)) {
 						$matched_platform = false;
-						break(2);
+						break 2;
 					}
 				}
 			}
@@ -78,6 +79,7 @@ class HebePlatform
 				break;
 			}
 		}
+
 		return $current_platform;
 	}
 

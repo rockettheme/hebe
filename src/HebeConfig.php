@@ -54,7 +54,7 @@ class HebeConfig
             if (false === $data) {
                 throw new RuntimeException('File not found or cannot be read');
             }
-            $this->data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            $this->data = json_decode($data, false, 512, JSON_THROW_ON_ERROR);
 
         } catch (JsonException|RuntimeException $e) {
             Hebe::error("Failed to decode the config file `" . $this->config_file . "`" . $e->getMessage());
